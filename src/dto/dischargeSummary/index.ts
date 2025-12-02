@@ -10,3 +10,5 @@ export enum DiagnosisProcedureType {
     OtherProcedure = "OtherProcedure",
     OtherNonOperation = "OtherNonOperation"
 }
+
+export * from "./utilityBox/auditorSuggestion";
