@@ -1,4 +1,4 @@
-import type { DiagnosisProcedureType } from "..";
+import type { DiagnosisProcedureType } from ".";
 
 export interface AuditorSuggestionResponse {
     id: string;

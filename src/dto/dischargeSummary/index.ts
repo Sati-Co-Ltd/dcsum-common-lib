@@ -11,4 +11,13 @@ export enum DiagnosisProcedureType {
     OtherNonOperation = "OtherNonOperation"
 }
 
-export * from "./utilityBox/auditorSuggestion";
+export type DiagnosisSectionKey =
+    | "principalDiagnosis"
+    | "comorbidity"
+    | "complication"
+    | "otherDiagnosis"
+    | "externalCauseOfInjury";
+
+export type ProcedureSectionKey = "operation" | "importantNonOperation" | "specialInvestigation" | "otherProcedure";
+
+export type MedicalSectionKey = DiagnosisSectionKey | ProcedureSectionKey;
