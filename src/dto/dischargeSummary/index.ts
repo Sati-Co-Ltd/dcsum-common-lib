@@ -21,3 +21,4 @@ export type DiagnosisSectionKey =
 export type ProcedureSectionKey = "operation" | "importantNonOperation" | "specialInvestigation" | "otherProcedure";
 
 export type MedicalSectionKey = DiagnosisSectionKey | ProcedureSectionKey;
+export * from "./auditorSuggestion.dto";
