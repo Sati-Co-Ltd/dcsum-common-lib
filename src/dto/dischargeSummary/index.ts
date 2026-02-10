@@ -22,3 +22,18 @@ export type ProcedureSectionKey = "operation" | "importantNonOperation" | "speci
 
 export type MedicalSectionKey = DiagnosisSectionKey | ProcedureSectionKey;
 export * from "./auditorSuggestion.dto";
+
+export type diagType =
+    | "principal"
+    | "comorbidity"
+    | "complication"
+    | "other"
+    | "externalCause"
+    | "operation"
+    | "importantNonOperation"
+    | "specialInvestigation"
+    | "otherProcedure"
+    | "Operation"
+    | "Other Non-Operation"
+    | "Important Non-Operation"
+    | "Special Investigation";
