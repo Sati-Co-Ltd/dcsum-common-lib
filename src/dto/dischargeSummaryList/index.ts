@@ -34,3 +34,8 @@ export interface DSListEncounterAssignmentMember {
     roleId: string;
     staff: StaffDto;
 }
+
+export type DSListAssigneeQuery = {
+    roleId: string;
+    staffId: string;
+};
