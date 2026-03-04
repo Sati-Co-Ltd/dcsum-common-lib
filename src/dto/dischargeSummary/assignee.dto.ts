@@ -29,6 +29,9 @@ export interface CreateEncounterAssignmentDto {
     assignedTypeId?: string;
     members: CreateMemberDto[];
     user: string | null;
+    fromStatus?: string;
+    toStatus?: string;
+    ward?: string;
 }
 
 export interface CreateEncounterAssignmentResponseDto {
