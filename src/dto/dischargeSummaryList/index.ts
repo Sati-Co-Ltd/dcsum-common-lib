@@ -32,7 +32,7 @@ export interface DSListEncounterAssignment {
 
 export interface DSListEncounterAssignmentMember {
     roleId: string;
-    staff: StaffDto;
+    staff: StaffDto | null;
 }
 
 export type DSListAssigneeQuery = {
