@@ -45,6 +45,8 @@ export interface AssignUsersGroup {
     roleId: string;
     roleName: string;
     staffs: StaffDto[];
+    canEdit?: boolean;
+    canRead?: boolean;
 }
 
 export interface AssignRoles {
