@@ -5,3 +5,10 @@ export interface FlowStatusResponse {
     order: number;
     isActive?: boolean;
 }
+
+export interface FlowStatusCreatePayload {
+    flowName: string;
+    code: string;
+    order: number;
+    isActive?: boolean;
+}
