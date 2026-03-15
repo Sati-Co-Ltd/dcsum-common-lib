@@ -3,4 +3,5 @@ export interface FlowStatusResponse {
     flowName: string;
     code: string;
     order: number;
+    isActive?: boolean;
 }
