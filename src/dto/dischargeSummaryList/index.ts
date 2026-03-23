@@ -24,6 +24,7 @@ export interface DischargeSummaryListResponse {
     ward?: string | null;
     healthCareCoverages?: HealthCareCoverageDto | null;
     encounterAssignment?: DSListEncounterAssignment | null;
+    updatedAt: string;
 }
 
 export interface DSListEncounterAssignment {
