@@ -5,7 +5,7 @@ export interface HealthCareCoverageDto {
     abbreviation: string;
     group?: string | null;
     expireDate?: string;
-    icd?: Icds | null;
+    icd?: Icds;
     drg?: Drgs | null;
     multiplier?: number;
     roomPrice?: number;
