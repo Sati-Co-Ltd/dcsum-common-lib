@@ -9,6 +9,9 @@ export interface HealthCareCoverageDto {
     drg?: Drgs | null;
     multiplier?: number;
     roomPrice?: number;
+    nhsoEClaimCode?: string | null;
+    chiServiceTypeCode?: string | null;
+    chiAipnSubtypeServiceTypeCode?: string | null;
 }
 
 export enum Icds {
