@@ -1,6 +1,6 @@
-type FinancialRevenueCycleRole = "auditDoctor" | "doctor" | "auditStaff" | "coder" | "import" | "unknown";
+export type FinancialRevenueCycleRole = "auditDoctor" | "doctor" | "auditStaff" | "coder" | "import" | "unknown";
 
-interface FinancialRevenueCycleCommonReturnRow {
+export interface FinancialRevenueCycleCommonReturnRow {
     role: FinancialRevenueCycleRole;
     tenantIdentifierId: string;
     timeGroup: Date | string;
@@ -29,7 +29,7 @@ interface FinancialRevenueCycleCommonReturnRow {
     stddevCoderAdjRw: number | null;
 }
 
-interface FinancialRevenueCycleFirstPassReturnRow {
+export interface FinancialRevenueCycleFirstPassReturnRow {
     totalFirstDuration: string | null;
     firstDurationSquareSum: number | null;
     totalFirstDoctorAdjRwDiff: number | null;
@@ -52,20 +52,20 @@ interface FinancialRevenueCycleFirstPassReturnRow {
     stddevFirstCoderAdjRw: number | null;
 }
 
-interface FinancialRevenueCycleLagToLeadRoleReturnRow extends FinancialRevenueCycleCommonReturnRow {
+export interface FinancialRevenueCycleLagToLeadRoleReturnRow extends FinancialRevenueCycleCommonReturnRow {
     lagRole: string | null;
     leadRole: string;
     roleEditSequence: number;
 }
 
-interface FinancialRevenueCycleRoleEditSequenceReturnRow extends FinancialRevenueCycleCommonReturnRow {
+export interface FinancialRevenueCycleRoleEditSequenceReturnRow extends FinancialRevenueCycleCommonReturnRow {
     roleEditSequence: number;
 }
 
-interface FinancialRevenueCycleRoleOnlyReturnRow
+export interface FinancialRevenueCycleRoleOnlyReturnRow
     extends FinancialRevenueCycleCommonReturnRow, FinancialRevenueCycleFirstPassReturnRow {}
 
-interface FinancialRevenueCycleTenantInfo {
+export interface FinancialRevenueCycleTenantInfo {
     name: string;
     subDomain: string;
     hospitalCode: string;
