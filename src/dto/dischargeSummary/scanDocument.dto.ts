@@ -3,6 +3,6 @@ export interface ScanDocumentByManualDto {
     url: string;
     label: string | null;
     isActive: boolean;
-    pathParams: any | null;
-    queryParams: any | null;
+    pathParams: string[] | null;
+    queryParams: string[] | null;
 }
