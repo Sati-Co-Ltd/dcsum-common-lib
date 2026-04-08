@@ -1,8 +1,25 @@
-export type FinancialRevenueCycleRole = "auditDoctor" | "doctor" | "auditStaff" | "coder" | "import" | "unknown";
+export type FinancialRevenueCycleRole = "auditDoctor" | "doctor" | "auditStaff" | "coder" | "import" | "user" | "unknown";
+export type FinancialRevenueCycleTimeGrouping =
+    | "hour"
+    | "day"
+    | "week"
+    | "month"
+    | "quarter"
+    | "year"
+    | "decade"
+    | "century"
+    | "millennium";
+
+export interface FinancialRevenueCycleFilter {
+    startDate: Date;
+    endDate: Date;
+    crossTenant?: boolean;
+    timeGrouping?: FinancialRevenueCycleTimeGrouping;
+}
 
 export interface FinancialRevenueCycleCommonReturnRow {
     role: FinancialRevenueCycleRole;
-    tenantIdentifierId: string;
+    tenantIdentifierId: string | null;
     timeGroup: Date | string;
     encounterCount: number;
     editCount: number;
