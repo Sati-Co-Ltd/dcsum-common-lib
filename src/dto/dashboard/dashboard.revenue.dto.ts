@@ -95,3 +95,46 @@ export interface FinancialRevenueCycleOutput {
     roleOnly: FinancialRevenueCycleRoleOnlyReturnRow[];
     tenant?: FinancialRevenueCycleTenantInfo;
 }
+
+export type StaffPendingSummaryFilter = {
+    startDate?: Date;
+    endDate?: Date;
+    kpiDays?: number | null;
+    referenceDate?: Date;
+};
+
+export type StaffPendingSummaryBucket = {
+    caseCount: number;
+    overKpiCaseCount: number;
+    withinKpiCaseCount: number;
+    sumAdjRw: number;
+    sumEstimatedPay: number;
+    sumCost: number;
+    sumWaitingDaysOverKpi: number;
+    sumWaitingDaysWithinKpi: number;
+    maxWaitingDays: number;
+};
+
+export type StaffPendingSummaryBucketKey = "notFinished" | "notStarted";
+
+export type StaffPendingSummaryDoctorRow = {
+    doctorKey: string;
+    doctorId: string | null;
+    doctorHisId: string | null;
+    doctorLicense: string | null;
+    doctorName: string;
+    kpiDays: number;
+    notFinished: StaffPendingSummaryBucket;
+    notStarted: StaffPendingSummaryBucket;
+};
+
+export type StaffPendingSummaryResponse = {
+    kpiDays: number;
+    asOf: Date;
+    totalDoctors: number;
+    doctors: StaffPendingSummaryDoctorRow[];
+    summary: {
+        notFinished: StaffPendingSummaryBucket;
+        notStarted: StaffPendingSummaryBucket;
+    };
+};
