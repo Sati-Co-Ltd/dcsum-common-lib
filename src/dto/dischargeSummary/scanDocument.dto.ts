@@ -1,8 +1,9 @@
 export interface ScanDocumentByManualDto {
     id: string;
     url: string;
-    label: string | null;
+    label: string;
     isActive: boolean;
-    pathParams: any | null;
-    queryParams: any | null;
+    pathParams: string[] | null;
+    queryParams: string[] | null;
+    isOpenNewTab: boolean;
 }
