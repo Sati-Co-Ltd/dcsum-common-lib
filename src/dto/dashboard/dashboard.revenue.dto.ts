@@ -1,4 +1,11 @@
-export type FinancialRevenueCycleRole = "auditDoctor" | "doctor" | "auditStaff" | "coder" | "import" | "user" | "unknown";
+export type FinancialRevenueCycleRole =
+    | "auditDoctor"
+    | "doctor"
+    | "auditStaff"
+    | "coder"
+    | "import"
+    | "user"
+    | "unknown";
 export type FinancialRevenueCycleTimeGrouping =
     | "hour"
     | "day"
@@ -9,6 +16,18 @@ export type FinancialRevenueCycleTimeGrouping =
     | "decade"
     | "century"
     | "millennium";
+
+export const financialRevenueCycleTimeGroupings: FinancialRevenueCycleTimeGrouping[] = [
+    "hour",
+    "day",
+    "week",
+    "month",
+    "quarter",
+    "year",
+    "decade",
+    "century",
+    "millennium"
+];
 
 export interface FinancialRevenueCycleFilter {
     startDate: Date;
@@ -35,15 +54,15 @@ export interface FinancialRevenueCycleCommonReturnRow {
     coderAdjRwSquareSum: number | null;
     hasEdit: boolean;
     avgDuration: number | null;
-    stddevDuration: number | null;
+    semDuration: number | null;
     avgDoctorAdjRwDiff: number | null;
-    stddevDoctorAdjRwDiff: number | null;
+    semDoctorAdjRwDiff: number | null;
     avgCoderAdjRwDiff: number | null;
-    stddevCoderAdjRwDiff: number | null;
+    semCoderAdjRwDiff: number | null;
     avgDoctorAdjRw: number | null;
-    stddevDoctorAdjRw: number | null;
+    semDoctorAdjRw: number | null;
     avgCoderAdjRw: number | null;
-    stddevCoderAdjRw: number | null;
+    semCoderAdjRw: number | null;
 }
 
 export interface FinancialRevenueCycleFirstPassReturnRow {
@@ -58,15 +77,15 @@ export interface FinancialRevenueCycleFirstPassReturnRow {
     totalFirstCoderAdjRw: number | null;
     firstCoderAdjRwSquareSum: number | null;
     avgFirstDuration: number | null;
-    stddevFirstDuration: number | null;
+    semFirstDuration: number | null;
     avgFirstDoctorAdjRwDiff: number | null;
-    stddevFirstDoctorAdjRwDiff: number | null;
+    semFirstDoctorAdjRwDiff: number | null;
     avgFirstCoderAdjRwDiff: number | null;
-    stddevFirstCoderAdjRwDiff: number | null;
+    semFirstCoderAdjRwDiff: number | null;
     avgFirstDoctorAdjRw: number | null;
-    stddevFirstDoctorAdjRw: number | null;
+    semFirstDoctorAdjRw: number | null;
     avgFirstCoderAdjRw: number | null;
-    stddevFirstCoderAdjRw: number | null;
+    semFirstCoderAdjRw: number | null;
 }
 
 export interface FinancialRevenueCycleLagToLeadRoleReturnRow extends FinancialRevenueCycleCommonReturnRow {
