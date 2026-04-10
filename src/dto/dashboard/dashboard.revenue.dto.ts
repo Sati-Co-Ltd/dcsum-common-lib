@@ -23,7 +23,7 @@ export interface FinancialRevenueCycleCommonReturnRow {
     timeGroup: Date | string;
     encounterCount: number;
     editCount: number;
-    totalDuration: string | null;
+    totalDuration: number | null;
     durationSquareSum: number | null;
     totalDoctorAdjRwDiff: number | null;
     doctorAdjRwDiffSquareSum: number | null;
@@ -34,7 +34,7 @@ export interface FinancialRevenueCycleCommonReturnRow {
     totalCoderAdjRw: number | null;
     coderAdjRwSquareSum: number | null;
     hasEdit: boolean;
-    avgDuration: string | null;
+    avgDuration: number | null;
     stddevDuration: number | null;
     avgDoctorAdjRwDiff: number | null;
     stddevDoctorAdjRwDiff: number | null;
@@ -47,7 +47,7 @@ export interface FinancialRevenueCycleCommonReturnRow {
 }
 
 export interface FinancialRevenueCycleFirstPassReturnRow {
-    totalFirstDuration: string | null;
+    totalFirstDuration: number | null;
     firstDurationSquareSum: number | null;
     totalFirstDoctorAdjRwDiff: number | null;
     firstDoctorAdjRwDiffSquareSum: number | null;
@@ -57,7 +57,7 @@ export interface FinancialRevenueCycleFirstPassReturnRow {
     firstDoctorAdjRwSquareSum: number | null;
     totalFirstCoderAdjRw: number | null;
     firstCoderAdjRwSquareSum: number | null;
-    avgFirstDuration: string | null;
+    avgFirstDuration: number | null;
     stddevFirstDuration: number | null;
     avgFirstDoctorAdjRwDiff: number | null;
     stddevFirstDoctorAdjRwDiff: number | null;
