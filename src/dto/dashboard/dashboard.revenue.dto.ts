@@ -115,6 +115,44 @@ export interface FinancialRevenueCycleOutput {
     tenant?: FinancialRevenueCycleTenantInfo;
 }
 
+export interface PreAuditAdjRwReturnRow {
+    mode: "per_tenant" | "overall";
+    tenantIdentifierId: string | null;
+    timeGroup: Date | string;
+    totalAuditedPreAuditAdjustRw: number | null;
+    auditedPreAuditAdjustRwSquareSum: number | null;
+    countAuditedPreAuditAdjustRw: number;
+    totalAuditedEstimatedIncome: number | null;
+    auditedEstimatedIncomeSquareSum: number | null;
+    countAuditedEstimatedIncome: number;
+    totalImprovedPreAuditAdjustRw: number | null;
+    improvedPreAuditAdjustRwSquareSum: number | null;
+    countImprovedPreAuditAdjustRw: number;
+    totalImprovedEstimatedIncome: number | null;
+    improvedEstimatedIncomeSquareSum: number | null;
+    countImprovedEstimatedIncome: number;
+    totalAdjustedRw: number | null;
+    adjustedRwSquareSum: number | null;
+    countAdjustedRw: number;
+    avgAuditedPreAuditAdjustRw: number | null;
+    semAuditedPreAuditAdjustRw: number | null;
+    avgAuditedEstimatedIncome: number | null;
+    semAuditedEstimatedIncome: number | null;
+    avgImprovedPreAuditAdjustRw: number | null;
+    semImprovedPreAuditAdjustRw: number | null;
+    avgImprovedEstimatedIncome: number | null;
+    semImprovedEstimatedIncome: number | null;
+    avgAdjustedRw: number | null;
+    semAdjustedRw: number | null;
+}
+
+export interface PreAuditAdjRwOutput {
+    preAuditAdjRw: PreAuditAdjRwReturnRow[];
+    tenant?: FinancialRevenueCycleTenantInfo;
+}
+
+export type PreAuditAdjRwFinancialRevenueCycleOutput = FinancialRevenueCycleOutput & PreAuditAdjRwOutput;
+
 export type StaffPendingSummaryFilter = {
     startDate?: Date;
     endDate?: Date;
