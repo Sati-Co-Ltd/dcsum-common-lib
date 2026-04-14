@@ -155,35 +155,34 @@ export type PreAuditAdjRwFinancialRevenueCycleOutput = FinancialRevenueCycleOutp
 
 // Serialized variants: BigInt count/sequence fields are mapped to number | string for JSON responses
 
-export interface FinancialRevenueCycleCommonReturnRowSerialized
-    extends Omit<FinancialRevenueCycleCommonReturnRow, "encounterCount" | "editCount"> {
+export interface FinancialRevenueCycleCommonReturnRowSerialized extends Omit<
+    FinancialRevenueCycleCommonReturnRow,
+    "encounterCount" | "editCount"
+> {
     encounterCount: number | string;
     editCount: number | string;
 }
 
-export interface FinancialRevenueCycleLagToLeadRoleReturnRowSerialized
-    extends Omit<
-        FinancialRevenueCycleLagToLeadRoleReturnRow,
-        "encounterCount" | "editCount" | "roleEditSequence"
-    > {
+export interface FinancialRevenueCycleLagToLeadRoleReturnRowSerialized extends Omit<
+    FinancialRevenueCycleLagToLeadRoleReturnRow,
+    "encounterCount" | "editCount" | "roleEditSequence"
+> {
     encounterCount: number | string;
     editCount: number | string;
     roleEditSequence: number | string;
 }
 
-export interface FinancialRevenueCycleRoleEditSequenceReturnRowSerialized
-    extends Omit<
-        FinancialRevenueCycleRoleEditSequenceReturnRow,
-        "encounterCount" | "editCount" | "roleEditSequence"
-    > {
+export interface FinancialRevenueCycleRoleEditSequenceReturnRowSerialized extends Omit<
+    FinancialRevenueCycleRoleEditSequenceReturnRow,
+    "encounterCount" | "editCount" | "roleEditSequence"
+> {
     encounterCount: number | string;
     editCount: number | string;
     roleEditSequence: number | string;
 }
 
 export interface FinancialRevenueCycleRoleOnlyReturnRowSerialized
-    extends FinancialRevenueCycleCommonReturnRowSerialized,
-        FinancialRevenueCycleFirstPassReturnRow {}
+    extends FinancialRevenueCycleCommonReturnRowSerialized, FinancialRevenueCycleFirstPassReturnRow {}
 
 export interface FinancialRevenueCycleOutputSerialized {
     lagToLeadRole: FinancialRevenueCycleLagToLeadRoleReturnRowSerialized[];
@@ -192,15 +191,14 @@ export interface FinancialRevenueCycleOutputSerialized {
     tenant?: FinancialRevenueCycleTenantInfo;
 }
 
-export interface PreAuditAdjRwReturnRowSerialized
-    extends Omit<
-        PreAuditAdjRwReturnRow,
-        | "countAuditedPreAuditAdjustRw"
-        | "countAuditedEstimatedIncome"
-        | "countImprovedPreAuditAdjustRw"
-        | "countImprovedEstimatedIncome"
-        | "countAdjustedRw"
-    > {
+export interface PreAuditAdjRwReturnRowSerialized extends Omit<
+    PreAuditAdjRwReturnRow,
+    | "countAuditedPreAuditAdjustRw"
+    | "countAuditedEstimatedIncome"
+    | "countImprovedPreAuditAdjustRw"
+    | "countImprovedEstimatedIncome"
+    | "countAdjustedRw"
+> {
     countAuditedPreAuditAdjustRw: number | string;
     countAuditedEstimatedIncome: number | string;
     countImprovedPreAuditAdjustRw: number | string;
@@ -221,18 +219,28 @@ export type StaffPendingSummaryFilter = {
     endDate?: Date;
     kpiDays?: number | null;
     referenceDate?: Date;
+    crossTenant?: boolean;
 };
 
 export type StaffPendingSummaryBucket = {
-    caseCount: number;
-    overKpiCaseCount: number;
-    withinKpiCaseCount: number;
+    caseCount: number | bigint;
+    overKpiCaseCount: number | bigint;
+    withinKpiCaseCount: number | bigint;
     sumAdjRw: number;
     sumEstimatedPay: number;
     sumCost: number;
     sumWaitingDaysOverKpi: number;
     sumWaitingDaysWithinKpi: number;
     maxWaitingDays: number;
+};
+
+export type StaffPendingSummaryBucketSerialized = Omit<
+    StaffPendingSummaryBucket,
+    "caseCount" | "overKpiCaseCount" | "withinKpiCaseCount"
+> & {
+    caseCount: number | string;
+    overKpiCaseCount: number | string;
+    withinKpiCaseCount: number | string;
 };
 
 export type StaffPendingSummaryBucketKey = "notFinished" | "notStarted";
@@ -248,7 +256,17 @@ export type StaffPendingSummaryDoctorRow = {
     notStarted: StaffPendingSummaryBucket;
 };
 
+export type StaffPendingSummaryDoctorRowSerialized = Omit<
+    StaffPendingSummaryDoctorRow,
+    "notFinished" | "notStarted"
+> & {
+    notFinished: StaffPendingSummaryBucketSerialized;
+    notStarted: StaffPendingSummaryBucketSerialized;
+};
+
 export type StaffPendingSummaryResponse = {
+    tenantIdentifierId: string | null;
+    tenant?: FinancialRevenueCycleTenantInfo;
     kpiDays: number;
     asOf: Date;
     totalDoctors: number;
@@ -258,3 +276,60 @@ export type StaffPendingSummaryResponse = {
         notStarted: StaffPendingSummaryBucket;
     };
 };
+
+export type StaffPendingSummaryResponseSerialized = Omit<StaffPendingSummaryResponse, "doctors" | "summary"> & {
+    doctors: StaffPendingSummaryDoctorRowSerialized[];
+    summary: {
+        notFinished: StaffPendingSummaryBucketSerialized;
+        notStarted: StaffPendingSummaryBucketSerialized;
+    };
+};
+
+// ---------------------------------------------------------------------------
+// User Revenue Cycle (group-by-user variant with KPI buckets)
+// ---------------------------------------------------------------------------
+
+export type UserRevenueCycleKpiBucket = "within" | "over" | "all";
+
+export type UserRevenueCycleFilter = FinancialRevenueCycleFilter & {
+    kpiDays?: number | null;
+};
+
+export interface UserRevenueCycleRow {
+    userId: string | null;
+    username: string | null;
+    userHisId: string | null;
+    userLicenseNumber: string | null;
+    role: FinancialRevenueCycleRole;
+    tenantIdentifierId: string | null;
+    timeGroup: Date | string;
+    kpiBucket: UserRevenueCycleKpiBucket;
+    encounterCount: number;
+    editCount: number;
+    totalDuration: number | null;
+    durationSquareSum: number | null;
+    avgDuration: number | null;
+    semDuration: number | null;
+    totalDoctorAdjRwDiff: number | null;
+    doctorAdjRwDiffSquareSum: number | null;
+    avgDoctorAdjRwDiff: number | null;
+    semDoctorAdjRwDiff: number | null;
+    totalCoderAdjRwDiff: number | null;
+    coderAdjRwDiffSquareSum: number | null;
+    avgCoderAdjRwDiff: number | null;
+    semCoderAdjRwDiff: number | null;
+    totalDoctorAdjRw: number | null;
+    doctorAdjRwSquareSum: number | null;
+    avgDoctorAdjRw: number | null;
+    semDoctorAdjRw: number | null;
+    totalCoderAdjRw: number | null;
+    coderAdjRwSquareSum: number | null;
+    avgCoderAdjRw: number | null;
+    semCoderAdjRw: number | null;
+}
+
+export interface UserRevenueCycleOutput {
+    kpiDays: number;
+    rows: UserRevenueCycleRow[];
+    tenant?: FinancialRevenueCycleTenantInfo;
+}
