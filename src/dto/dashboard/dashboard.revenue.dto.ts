@@ -40,8 +40,8 @@ export interface FinancialRevenueCycleCommonReturnRow {
     role: FinancialRevenueCycleRole;
     tenantIdentifierId: string | null;
     timeGroup: Date | string;
-    encounterCount: number;
-    editCount: number;
+    encounterCount: bigint;
+    editCount: bigint;
     totalDuration: number | null;
     durationSquareSum: number | null;
     totalDoctorAdjRwDiff: number | null;
@@ -91,11 +91,11 @@ export interface FinancialRevenueCycleFirstPassReturnRow {
 export interface FinancialRevenueCycleLagToLeadRoleReturnRow extends FinancialRevenueCycleCommonReturnRow {
     lagRole: string | null;
     leadRole: string;
-    roleEditSequence: number;
+    roleEditSequence: bigint;
 }
 
 export interface FinancialRevenueCycleRoleEditSequenceReturnRow extends FinancialRevenueCycleCommonReturnRow {
-    roleEditSequence: number;
+    roleEditSequence: bigint;
 }
 
 export interface FinancialRevenueCycleRoleOnlyReturnRow
@@ -121,19 +121,19 @@ export interface PreAuditAdjRwReturnRow {
     timeGroup: Date | string;
     totalAuditedPreAuditAdjustRw: number | null;
     auditedPreAuditAdjustRwSquareSum: number | null;
-    countAuditedPreAuditAdjustRw: number;
+    countAuditedPreAuditAdjustRw: bigint;
     totalAuditedEstimatedIncome: number | null;
     auditedEstimatedIncomeSquareSum: number | null;
-    countAuditedEstimatedIncome: number;
+    countAuditedEstimatedIncome: bigint;
     totalImprovedPreAuditAdjustRw: number | null;
     improvedPreAuditAdjustRwSquareSum: number | null;
-    countImprovedPreAuditAdjustRw: number;
+    countImprovedPreAuditAdjustRw: bigint;
     totalImprovedEstimatedIncome: number | null;
     improvedEstimatedIncomeSquareSum: number | null;
-    countImprovedEstimatedIncome: number;
+    countImprovedEstimatedIncome: bigint;
     totalAdjustedRw: number | null;
     adjustedRwSquareSum: number | null;
-    countAdjustedRw: number;
+    countAdjustedRw: bigint;
     avgAuditedPreAuditAdjustRw: number | null;
     semAuditedPreAuditAdjustRw: number | null;
     avgAuditedEstimatedIncome: number | null;
@@ -152,6 +152,69 @@ export interface PreAuditAdjRwOutput {
 }
 
 export type PreAuditAdjRwFinancialRevenueCycleOutput = FinancialRevenueCycleOutput & PreAuditAdjRwOutput;
+
+// Serialized variants: BigInt count/sequence fields are mapped to number | string for JSON responses
+
+export interface FinancialRevenueCycleCommonReturnRowSerialized
+    extends Omit<FinancialRevenueCycleCommonReturnRow, "encounterCount" | "editCount"> {
+    encounterCount: number | string;
+    editCount: number | string;
+}
+
+export interface FinancialRevenueCycleLagToLeadRoleReturnRowSerialized
+    extends Omit<
+        FinancialRevenueCycleLagToLeadRoleReturnRow,
+        "encounterCount" | "editCount" | "roleEditSequence"
+    > {
+    encounterCount: number | string;
+    editCount: number | string;
+    roleEditSequence: number | string;
+}
+
+export interface FinancialRevenueCycleRoleEditSequenceReturnRowSerialized
+    extends Omit<
+        FinancialRevenueCycleRoleEditSequenceReturnRow,
+        "encounterCount" | "editCount" | "roleEditSequence"
+    > {
+    encounterCount: number | string;
+    editCount: number | string;
+    roleEditSequence: number | string;
+}
+
+export interface FinancialRevenueCycleRoleOnlyReturnRowSerialized
+    extends FinancialRevenueCycleCommonReturnRowSerialized,
+        FinancialRevenueCycleFirstPassReturnRow {}
+
+export interface FinancialRevenueCycleOutputSerialized {
+    lagToLeadRole: FinancialRevenueCycleLagToLeadRoleReturnRowSerialized[];
+    roleEditSequence: FinancialRevenueCycleRoleEditSequenceReturnRowSerialized[];
+    roleOnly: FinancialRevenueCycleRoleOnlyReturnRowSerialized[];
+    tenant?: FinancialRevenueCycleTenantInfo;
+}
+
+export interface PreAuditAdjRwReturnRowSerialized
+    extends Omit<
+        PreAuditAdjRwReturnRow,
+        | "countAuditedPreAuditAdjustRw"
+        | "countAuditedEstimatedIncome"
+        | "countImprovedPreAuditAdjustRw"
+        | "countImprovedEstimatedIncome"
+        | "countAdjustedRw"
+    > {
+    countAuditedPreAuditAdjustRw: number | string;
+    countAuditedEstimatedIncome: number | string;
+    countImprovedPreAuditAdjustRw: number | string;
+    countImprovedEstimatedIncome: number | string;
+    countAdjustedRw: number | string;
+}
+
+export interface PreAuditAdjRwOutputSerialized {
+    preAuditAdjRw: PreAuditAdjRwReturnRowSerialized[];
+    tenant?: FinancialRevenueCycleTenantInfo;
+}
+
+export type PreAuditAdjRwFinancialRevenueCycleOutputSerialized = FinancialRevenueCycleOutputSerialized &
+    PreAuditAdjRwOutputSerialized;
 
 export type StaffPendingSummaryFilter = {
     startDate?: Date;
