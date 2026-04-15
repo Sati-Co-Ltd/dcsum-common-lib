@@ -7,6 +7,7 @@ export type FinancialRevenueCycleRole =
     | "user"
     | "unknown";
 export type FinancialRevenueCycleTimeGrouping =
+    | ""
     | "hour"
     | "day"
     | "week"
@@ -18,6 +19,7 @@ export type FinancialRevenueCycleTimeGrouping =
     | "millennium";
 
 export const financialRevenueCycleTimeGroupings: FinancialRevenueCycleTimeGrouping[] = [
+    "",
     "hour",
     "day",
     "week",
@@ -99,7 +101,8 @@ export interface FinancialRevenueCycleRoleEditSequenceReturnRow extends Financia
 }
 
 export interface FinancialRevenueCycleRoleOnlyReturnRow
-    extends FinancialRevenueCycleCommonReturnRow, FinancialRevenueCycleFirstPassReturnRow {}
+    extends FinancialRevenueCycleCommonReturnRow,
+        FinancialRevenueCycleFirstPassReturnRow {}
 
 export interface FinancialRevenueCycleTenantInfo {
     name: string;
@@ -155,34 +158,29 @@ export type PreAuditAdjRwFinancialRevenueCycleOutput = FinancialRevenueCycleOutp
 
 // Serialized variants: BigInt count/sequence fields are mapped to number | string for JSON responses
 
-export interface FinancialRevenueCycleCommonReturnRowSerialized extends Omit<
-    FinancialRevenueCycleCommonReturnRow,
-    "encounterCount" | "editCount"
-> {
+export interface FinancialRevenueCycleCommonReturnRowSerialized
+    extends Omit<FinancialRevenueCycleCommonReturnRow, "encounterCount" | "editCount"> {
     encounterCount: number | string;
     editCount: number | string;
 }
 
-export interface FinancialRevenueCycleLagToLeadRoleReturnRowSerialized extends Omit<
-    FinancialRevenueCycleLagToLeadRoleReturnRow,
-    "encounterCount" | "editCount" | "roleEditSequence"
-> {
+export interface FinancialRevenueCycleLagToLeadRoleReturnRowSerialized
+    extends Omit<FinancialRevenueCycleLagToLeadRoleReturnRow, "encounterCount" | "editCount" | "roleEditSequence"> {
     encounterCount: number | string;
     editCount: number | string;
     roleEditSequence: number | string;
 }
 
-export interface FinancialRevenueCycleRoleEditSequenceReturnRowSerialized extends Omit<
-    FinancialRevenueCycleRoleEditSequenceReturnRow,
-    "encounterCount" | "editCount" | "roleEditSequence"
-> {
+export interface FinancialRevenueCycleRoleEditSequenceReturnRowSerialized
+    extends Omit<FinancialRevenueCycleRoleEditSequenceReturnRow, "encounterCount" | "editCount" | "roleEditSequence"> {
     encounterCount: number | string;
     editCount: number | string;
     roleEditSequence: number | string;
 }
 
 export interface FinancialRevenueCycleRoleOnlyReturnRowSerialized
-    extends FinancialRevenueCycleCommonReturnRowSerialized, FinancialRevenueCycleFirstPassReturnRow {}
+    extends FinancialRevenueCycleCommonReturnRowSerialized,
+        FinancialRevenueCycleFirstPassReturnRow {}
 
 export interface FinancialRevenueCycleOutputSerialized {
     lagToLeadRole: FinancialRevenueCycleLagToLeadRoleReturnRowSerialized[];
@@ -191,14 +189,15 @@ export interface FinancialRevenueCycleOutputSerialized {
     tenant?: FinancialRevenueCycleTenantInfo;
 }
 
-export interface PreAuditAdjRwReturnRowSerialized extends Omit<
-    PreAuditAdjRwReturnRow,
-    | "countAuditedPreAuditAdjustRw"
-    | "countAuditedEstimatedIncome"
-    | "countImprovedPreAuditAdjustRw"
-    | "countImprovedEstimatedIncome"
-    | "countAdjustedRw"
-> {
+export interface PreAuditAdjRwReturnRowSerialized
+    extends Omit<
+        PreAuditAdjRwReturnRow,
+        | "countAuditedPreAuditAdjustRw"
+        | "countAuditedEstimatedIncome"
+        | "countImprovedPreAuditAdjustRw"
+        | "countImprovedEstimatedIncome"
+        | "countAdjustedRw"
+    > {
     countAuditedPreAuditAdjustRw: number | string;
     countAuditedEstimatedIncome: number | string;
     countImprovedPreAuditAdjustRw: number | string;
