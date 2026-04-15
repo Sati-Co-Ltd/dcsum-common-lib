@@ -18,6 +18,7 @@ export type VerifyTokenOtaBmsResponse = {
     moduleAction: number[];
     roleId: string;
     type: "ota" | "bms";
+    tenantIdentifierId?: string;
     hospitalNumber?: string;
     transactionNumber?: string;
     user?: OtaBmsUserInfo;
@@ -39,6 +40,7 @@ export type VerifyTokenUserResponse = {
     hisId: string | null;
     roleName: string;
     moduleAction: number[];
+    tenantIdentifierId?: string;
     token: string;
     satiEcoSystemToken?: string | null;
 };
