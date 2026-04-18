@@ -38,6 +38,11 @@ export interface FinancialRevenueCycleFilter {
     timeGrouping?: FinancialRevenueCycleTimeGrouping;
 }
 
+export type CrossTenantAccessResponse = {
+    allowed: boolean;
+    tenantIdentifierId: string | null;
+};
+
 export interface FinancialRevenueCycleCommonReturnRow {
     role: FinancialRevenueCycleRole;
     tenantIdentifierId: string | null;
