@@ -18,6 +18,15 @@ export interface UserDto {
     deletedAt?: Date | null;
 }
 
+export interface UserResponseDto extends UserDto {
+    role: {
+        id: string;
+        name: string;
+        createdAt?: Date | null;
+        updatedAt?: Date | null;
+    };
+}
+
 export interface CreateUserDto extends Omit<UserDto, "id"> {
     id?: string;
 }
