@@ -31,7 +31,7 @@ export interface UserResponseDto extends UserDto {
     passwordHistory: Partial<PasswordHistoryDto>[];
 }
 
-export interface CreateUserDto extends Omit<UserDto, "id"> {
+export interface CreateUserDto extends Omit<UserDto, "id" | "failedLoginCount" | "lastFailedLogin"> {
     id?: string;
 }
 
