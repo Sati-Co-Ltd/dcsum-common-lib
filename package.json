@@ -12,6 +12,9 @@
         "clean": "rimraf dist"
     },
     "license": "UNLICENSED",
+    "peerDependencies": {
+        "zxcvbn": "^4.4.2"
+    },
     "devDependencies": {
         "@types/zxcvbn": "^4.4.5",
         "rimraf": "^5.0.0",
