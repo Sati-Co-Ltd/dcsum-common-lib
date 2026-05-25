@@ -25,6 +25,7 @@ export interface UserResponseDto extends UserDto {
         createdAt?: Date | null;
         updatedAt?: Date | null;
     };
+    passwordHistory: Partial<PasswordHistoryDto>[];
 }
 
 export interface CreateUserDto extends Omit<UserDto, "id"> {
@@ -33,4 +34,13 @@ export interface CreateUserDto extends Omit<UserDto, "id"> {
 
 export interface UpdateUserDto extends Omit<UserDto, "password"> {
     password?: string;
+}
+
+export interface PasswordHistoryDto {
+    id: string;
+    userId: string;
+    password: string;
+    changedAt: Date;
+    changedBy?: string;
+    reason?: string;
 }
