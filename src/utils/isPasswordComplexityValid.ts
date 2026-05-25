@@ -32,8 +32,21 @@ const isPasswordComplexityValid = (password: string): boolean => {
         return false;
     }
 
-    const strength = zxcvbn(password);
-    return strength.score >= MIN_PASSWORD_STRENGTH_SCORE;
+    return isPasswordNotCommon(password);
 };
 
-export { isPasswordComplexityValid, MIN_PASSWORD_STRENGTH_SCORE };
+/**
+ * ตรวจสอบว่ารหัสผ่านไม่ใช่รหัสที่พบบ่อย (common password)
+ *
+ * ใช้คะแนนความแข็งแรงจาก zxcvbn ≥ 3 (safely unguessable)
+ * เพื่อกรองรหัสที่อยู่ใน dictionary / pattern ที่เดาได้ง่าย
+ *
+ * @param password - รหัสผ่านที่ต้องการตรวจสอบ
+ * @returns `true` หากไม่ใช่รหัสที่พบบ่อย
+ */
+const isPasswordNotCommon = (password: string): boolean => {
+    if (!password) return false;
+    return zxcvbn(password).score >= MIN_PASSWORD_STRENGTH_SCORE;
+};
+
+export { isPasswordComplexityValid, isPasswordNotCommon, MIN_PASSWORD_STRENGTH_SCORE };
