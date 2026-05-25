@@ -11,6 +11,9 @@ export interface UserDto {
     createdAt?: Date;
     updatedAt?: Date;
 
+    failedLoginCount: number;
+    lastFailedLogin?: Date | null;
+
     isActive?: boolean;
     isLock?: boolean;
     lockedAt?: Date | null;
