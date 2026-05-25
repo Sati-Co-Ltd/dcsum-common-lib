@@ -35,8 +35,9 @@ export interface CreateUserDto extends Omit<UserDto, "id" | "failedLoginCount" |
     id?: string;
 }
 
-export interface UpdateUserDto extends Omit<UserDto, "password"> {
+export interface UpdateUserDto extends Omit<UserDto, "password" | "failedLoginCount"> {
     password?: string;
+    failedLoginCount?: number;
 }
 
 export interface PasswordHistoryDto {
