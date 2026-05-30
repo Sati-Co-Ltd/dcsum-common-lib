@@ -27,6 +27,11 @@ export interface DischargeSummaryListResponse {
     updatedAt: string;
 }
 
+export interface DischargeSummaryListTotal {
+    myWork: number;
+    all: number;
+}
+
 export interface DSListEncounterAssignment {
     members: DSListEncounterAssignmentMember[];
 }
