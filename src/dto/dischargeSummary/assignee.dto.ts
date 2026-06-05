@@ -3,6 +3,7 @@ export interface StaffDto {
     hisId?: string | null;
     licenseNo?: string | null;
     fullName: string | null;
+    isActive?: boolean | null;
 }
 
 export interface RoleDto {
