@@ -25,6 +25,8 @@ export interface DischargeSummaryListResponse {
     healthCareCoverages?: HealthCareCoverageDto | null;
     encounterAssignment?: DSListEncounterAssignment | null;
     updatedAt: string;
+    pendingDays?: number | null;
+    kpiStatus?: "normal" | "warning";
 }
 
 export interface DischargeSummaryListTotal {
