@@ -26,7 +26,7 @@ export interface DischargeSummaryListResponse {
     encounterAssignment?: DSListEncounterAssignment | null;
     updatedAt: string;
     pendingDays?: number | null;
-    kpiStatus?: "normal" | "warning";
+    kpiStatus?: "normal" | "warning" | "complete";
 }
 
 export interface DischargeSummaryListTotal {
