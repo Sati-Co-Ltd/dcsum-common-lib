@@ -10,6 +10,25 @@ interface Patient {
     dateOfBirth: string;
 }
 
+export type KpiItemStatus = "NORMAL" | "WARNING" | "EXCEEDED" | "NEVER_ENTERED";
+
+export interface KpiColumnItem {
+    flowStatusId: string;
+    flowName: string;
+    order: number;
+    thresholdMinutes: number;
+    /** Accumulated time spent in this flow_status; null = never entered ("-"). */
+    durationMinutes: number | null;
+    status: KpiItemStatus;
+}
+
+export interface KpiColumn {
+    kpiSetId: string;
+    kpiSetName: string;
+    warningThresholdPercent: number;
+    items: KpiColumnItem[];
+}
+
 export interface DischargeSummaryListResponse {
     id: string;
     transactionNumber: string;
@@ -27,6 +46,8 @@ export interface DischargeSummaryListResponse {
     updatedAt: string;
     pendingDays?: number | null;
     kpiStatus?: "normal" | "warning" | "complete";
+    /** KPI breakdown for the matched KPI set; null when no KPI set applies. */
+    kpi?: KpiColumn | null;
 }
 
 export interface DischargeSummaryListTotal {
