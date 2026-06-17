@@ -12,6 +12,16 @@ interface Patient {
 
 export type KpiItemStatus = "NORMAL" | "WARNING" | "EXCEEDED" | "NEVER_ENTERED";
 
+/**
+ * Comparison operator for the Work List KPI duration filter.
+ * - `gt`  — greater than (>)
+ * - `gte` — greater than or equal (>=)
+ * - `lt`  — less than (<)
+ * - `lte` — less than or equal (<=)
+ * - `eq`  — equal (=); matches the whole-day window [days, days + 1)
+ */
+export type KpiDurationOperator = "gt" | "gte" | "lt" | "lte" | "eq";
+
 export interface KpiColumnItem {
     flowStatusId: string;
     flowName: string;
