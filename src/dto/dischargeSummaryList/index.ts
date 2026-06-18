@@ -1,5 +1,6 @@
 import type { StaffDto } from "../dischargeSummary/assignee.dto";
 import type { HealthCareCoverageDto } from "../healthCareCoverage/healthCareCoverage.dto";
+import type { OperatorCode } from "../operator.dto";
 import type { FlowStatusResponse } from "./flowStatus.dto";
 
 interface Patient {
@@ -11,16 +12,6 @@ interface Patient {
 }
 
 export type KpiItemStatus = "NORMAL" | "WARNING" | "EXCEEDED" | "NEVER_ENTERED";
-
-/**
- * Comparison operator for the Work List KPI duration filter.
- * - `gt`  — greater than (>)
- * - `gte` — greater than or equal (>=)
- * - `lt`  — less than (<)
- * - `lte` — less than or equal (<=)
- * - `eq`  — equal (=); matches the whole-day window [days, days + 1)
- */
-export type KpiDurationOperator = "gt" | "gte" | "lt" | "lte" | "eq";
 
 export interface KpiColumnItem {
     flowStatusId: string;
@@ -77,4 +68,20 @@ export interface DSListEncounterAssignmentMember {
 export type DSListAssigneeQuery = {
     roleId: string;
     staffId: string;
+};
+
+export type DischargeSummaryListQuery = {
+    take?: number;
+    skip?: number;
+    search?: string;
+    from?: string;
+    to?: string;
+    mode?: string;
+    sortBy: string | null;
+    orderBy: "asc" | "desc";
+    ward?: string;
+    assignee?: DSListAssigneeQuery[];
+    status?: string;
+    kpiDurationOperator?: OperatorCode;
+    kpiDurationDays?: number | null;
 };
