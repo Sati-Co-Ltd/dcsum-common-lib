@@ -31,6 +31,7 @@ export interface KpiColumn {
 }
 
 export interface KpiSummaryResponse {
+    totalMinutes: number | null;
     averageMinutes: number | null;
     overdueCount: number;
     encounterCount: number;
