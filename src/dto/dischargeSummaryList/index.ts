@@ -30,6 +30,12 @@ export interface KpiColumn {
     items: KpiColumnItem[];
 }
 
+export interface KpiSummaryResponse {
+    averageMinutes: number | null;
+    overdueCount: number;
+    encounterCount: number;
+}
+
 export interface DischargeSummaryListResponse {
     id: string;
     transactionNumber: string;
