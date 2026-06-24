@@ -17,10 +17,9 @@ export interface KpiColumnItem {
     flowStatusId: string;
     flowName: string;
     order: number;
-    thresholdMinutes: number;
-    /** Accumulated time spent in this flow_status (minutes, truncated); null = never entered ("-"). */
-    durationMinutes: number | null;
-    /** Same duration floored to whole days; consistent with the KPI summary. null = never entered. */
+    /** KPI threshold in whole days. */
+    thresholdDays: number;
+    /** Accumulated time in this flow_status floored to whole days; null = never entered ("-"). */
     durationDays: number | null;
     status: KpiItemStatus;
 }
@@ -33,11 +32,11 @@ export interface KpiColumn {
 }
 
 export interface KpiSummaryResponse {
-    /** Sum of KPI duration (minutes) across qualifying encounters. null when none. */
-    totalMinutes: number | null;
+    /** Sum of per-encounter whole-day KPI durations across qualifying encounters. null when none. */
+    totalDays: number | null;
     /**
      * Average KPI duration per qualifying encounter, in whole days (truncated, no
-     * rounding). Each encounter's duration is floored to whole days before averaging.
+     * rounding). Each flow_status duration is floored to whole days before summing.
      */
     averageDays: number | null;
     /** Encounters with at least one KPI flow_status at/over its threshold. */
