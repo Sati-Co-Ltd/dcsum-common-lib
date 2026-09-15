@@ -15,6 +15,7 @@ export interface UserDto {
     lastFailedLogin?: Date | null;
 
     isActive?: boolean;
+    isAssignable?: boolean;
     isLock?: boolean;
     lockedAt?: Date | null;
     isDelete?: boolean;
@@ -33,11 +34,13 @@ export interface UserResponseDto extends UserDto {
 
 export interface CreateUserDto extends Omit<UserDto, "id" | "failedLoginCount" | "lastFailedLogin"> {
     id?: string;
+    assignRoleId?: string | null;
 }
 
 export interface UpdateUserDto extends Omit<UserDto, "password" | "failedLoginCount"> {
     password?: string;
     failedLoginCount?: number;
+    assignRoleId?: string | null;
 }
 
 export interface PasswordHistoryDto {
