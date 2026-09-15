@@ -29,6 +29,7 @@ export interface UserResponseDto extends UserDto {
         createdAt?: Date | null;
         updatedAt?: Date | null;
     };
+    hospitalStaff?: HospitalStaffDto | null;
     passwordHistory: Partial<PasswordHistoryDto>[];
 }
 
@@ -50,4 +51,16 @@ export interface PasswordHistoryDto {
     changedAt: Date;
     changedBy?: string;
     reason?: string;
+}
+
+export interface HospitalStaffDto {
+    id: string;
+    hisId: string;
+    licenseNo: string;
+    isActive: boolean;
+    roleId: string;
+    role: {
+        id: string;
+        roleName: string;
+    };
 }
