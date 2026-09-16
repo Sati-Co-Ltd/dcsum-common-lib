@@ -35,10 +35,12 @@ export interface UserResponseDto extends UserDto {
 
 export interface CreateUserDto extends Omit<UserDto, "id" | "failedLoginCount" | "lastFailedLogin"> {
     id?: string;
+    hisId?: string | null;
     assignRoleId?: string | null;
 }
 
 export interface UpdateUserDto extends Omit<UserDto, "password" | "failedLoginCount"> {
+    hisId?: string | null;
     password?: string;
     failedLoginCount?: number;
     assignRoleId?: string | null;
