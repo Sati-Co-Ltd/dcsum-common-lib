@@ -3,6 +3,8 @@ export interface StaffDto {
     hisId?: string | null;
     licenseNo?: string | null;
     fullName: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
     isActive?: boolean | null;
 }
 

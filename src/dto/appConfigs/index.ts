@@ -1,4 +1,5 @@
 import type { ClinicalSummaryDisplayMode, ClinicalSummaryDto } from "../dischargeSummary/clinicalSummary.dto";
+import type { DischargeSummaryListConfigDto } from "./dischargeSummaryListConfig.dto";
 
 // --- Export Feature Configuration ---
 export interface ButtonConfigDto {
@@ -208,4 +209,5 @@ export interface AppConfigDto {
         // "hybrid" = ใช้ค่าตอน import ก่อน แล้วเรียก interpreter เฉพาะ item ที่ยังไม่มีค่า
         normalStatusMode?: "interpreter" | "import" | "hybrid";
     };
+    dischargeSummaryList?: DischargeSummaryListConfigDto;
 }
