@@ -141,6 +141,7 @@ export interface AppConfigDto {
     };
     export: {
         doctorOrderSheetProcExport: boolean; // True = export, False = not export. Default: False
+        removeIcdDot?: boolean; // True = send icd without the dot (E35.2 -> E352) in exportData and exportCustomPath. Default: False
     };
     printForm?: PrintFormConfigDto;
     syncOnpremData?: SyncOnpremDataConfigDto;
