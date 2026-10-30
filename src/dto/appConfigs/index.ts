@@ -199,6 +199,9 @@ export interface AppConfigDto {
     rewriteOption?: {
         keepOriginalTerm?: boolean; // default false
         suggestICD?: boolean; // default true
+        // which backend answers the code-mapping/rewrite call:
+        // "oneshot" (default) = /ipd-oneshot/v2/rewrite, "coder-ai" = /coder-ai/v1/rewrite
+        codeMappingProvider?: "oneshot" | "coder-ai";
     };
     unsavedDraftGuard?: {
         enabled: boolean;
