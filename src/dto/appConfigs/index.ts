@@ -1,5 +1,6 @@
 import type { ClinicalSummaryDisplayMode, ClinicalSummaryDto } from "../dischargeSummary/clinicalSummary.dto";
 import type { DischargeSummaryListConfigDto } from "./dischargeSummaryListConfig.dto";
+import type { PreAuditSuggestionConfig } from "./preAuditSuggestionConfig.dto";
 
 // --- Export Feature Configuration ---
 export interface ButtonConfigDto {
@@ -169,16 +170,7 @@ export interface AppConfigDto {
         showDefaultDischargeCode?: boolean;
     };
     enablePrintForm?: boolean;
-    preAuditSuggestion?: {
-        displayMode: {
-            enabled: boolean;
-            defaultMode: "brief" | "detailed";
-        };
-        similarity: {
-            enabled: boolean;
-        };
-        isCurrentANOnly: boolean;
-    };
+    preAuditSuggestion?: PreAuditSuggestionConfig;
     reasonList?: ReasonListItemDto[];
     autoPractitioner?: boolean;
     disableAutoPractitioner?: boolean;
