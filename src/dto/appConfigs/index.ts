@@ -285,35 +285,89 @@ const skipListItemSchema = z.object({
 export type PreAuditVersion = "v2" | "v3" | "v4" | "v4.2" | "v4.4";
 
 // --- Hidden Menus Configuration ---
-// Authoritative key set taken from dcsum-api-hosxp/src/modules/app/constant/initialApp.ts's
-// APP_CONFIGS.hiddenMenus default. Keep this list in sync with that file and with the menu ids
-// defined in dcsum-client-hosxp/src/hooks/useMenu.tsx if menus are added/removed/renamed.
+// Authoritative key set taken from the full menu registry in
+// dcsum-client-hosxp/src/hooks/useMenu.tsx (every top-level and nested menu id), not just the
+// subset that happens to have a default in dcsum-api-hosxp/src/modules/app/constant/initialApp.ts.
+// Keep this list in sync with useMenu.tsx if menus are added/removed/renamed.
 const HIDDEN_MENU_KEYS = [
-    "search",
-    "impress",
-    "patients",
     "dashboard",
+    "financial-dashboard",
+    "financial-dashboard/revenue-drg",
+    "financial-dashboard/staff-pending",
+    "financial-dashboard/revenue-user",
+    "leaderboard",
+    "search",
+    "patients",
     "encounter",
-    "drg-estimator",
     "patient-record",
+    "inpatient-case-selection",
+    "discharge-summary",
+    "drg-estimator",
     "reports-and-exports",
-    "inpatient-case-selection"
+    "impress",
+    "retry-case",
+    "setting",
+    "setting/users",
+    "setting/roles",
+    "setting/modules",
+    "setting/health-care-coverages",
+    "setting/operational",
+    "setting/encounter-status",
+    "setting/kpi-sets",
+    "setting/user-module"
 ] as const;
 
 const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
-    search: "Search",
-    impress: "Impress",
-    patients: "Patients",
     dashboard: "Dashboard",
+    "financial-dashboard": "Financial Dashboard",
+    "financial-dashboard/revenue-drg": "Financial Dashboard – Revenue DRG",
+    "financial-dashboard/staff-pending": "Financial Dashboard – Staff Pending",
+    "financial-dashboard/revenue-user": "Financial Dashboard – Revenue User",
+    leaderboard: "Leaderboard",
+    search: "Search",
+    patients: "Patients",
     encounter: "Encounter",
-    "drg-estimator": "DRG Estimator",
     "patient-record": "Patient Record",
+    "inpatient-case-selection": "Inpatient Case Selection",
+    "discharge-summary": "Discharge Summary",
+    "drg-estimator": "DRG Estimator",
     "reports-and-exports": "Reports & Exports",
-    "inpatient-case-selection": "Inpatient Case Selection"
+    impress: "Impress",
+    "retry-case": "Retry Case",
+    setting: "Setting",
+    "setting/users": "Setting – Users",
+    "setting/roles": "Setting – Roles",
+    "setting/modules": "Setting – Modules",
+    "setting/health-care-coverages": "Setting – Health Care Coverages",
+    "setting/operational": "Setting – Operational",
+    "setting/encounter-status": "Setting – Encounter Status",
+    "setting/kpi-sets": "Setting – KPI Sets",
+    "setting/user-module": "Setting – User Module"
 };
 
+// Menu ids hidden by default for a tenant with no explicit hiddenMenus entry, matching the
+// union of today's two existing default layers: the frontend's DEFAULT_HIDDEN_MENUS fallback
+// (dcsum-client-hosxp/src/constants/menus.ts) and the backend's initialApp.ts tenant-creation
+// default. Every other menu id defaults to visible (false).
+const HIDDEN_BY_DEFAULT_MENU_KEYS = new Set<(typeof HIDDEN_MENU_KEYS)[number]>([
+    "dashboard",
+    "financial-dashboard",
+    "leaderboard",
+    "search",
+    "patients",
+    "encounter",
+    "patient-record",
+    "inpatient-case-selection",
+    "drg-estimator",
+    "reports-and-exports",
+    "impress"
+]);
+
 const hiddenMenusShape = Object.fromEntries(
-    HIDDEN_MENU_KEYS.map((key) => [key, z.boolean().optional().default(true)])
+    HIDDEN_MENU_KEYS.map((key) => [
+        key,
+        z.boolean().optional().default(HIDDEN_BY_DEFAULT_MENU_KEYS.has(key))
+    ])
 ) as Record<(typeof HIDDEN_MENU_KEYS)[number], z.ZodDefault<z.ZodOptional<z.ZodBoolean>>>;
 
 const hiddenMenusSchema = withMeta(z.object(hiddenMenusShape).optional().default({}), {
