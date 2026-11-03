@@ -17,32 +17,32 @@ export type { DischargeSummaryListConfigDto } from "./dischargeSummaryListConfig
 
 export const buttonConfigSchema = z.object({
     label: withMeta(z.string().optional().default(""), {
-        label: "Label",
-        description: "Text shown on the export button."
+        label: "ป้ายกำกับ",
+        description: "ข้อความที่แสดงบนปุ่มส่งออก"
     }),
     enabled: withMeta(z.boolean().optional().default(true), {
-        label: "Enabled",
-        description: "Whether this export button is shown at all."
+        label: "เปิดใช้งาน",
+        description: "กำหนดว่าจะแสดงปุ่มส่งออกนี้หรือไม่"
     }),
     defaultCheck: withMeta(z.boolean().optional().default(false), {
-        label: "Checked By Default",
-        description: "Whether this button's checkbox is pre-checked by default when the export dialog opens."
+        label: "เลือกไว้ล่วงหน้า",
+        description: "กำหนดว่าช่องเลือกของปุ่มนี้จะถูกติ๊กไว้ล่วงหน้าโดยค่าเริ่มต้นเมื่อเปิดหน้าต่างส่งออกหรือไม่"
     })
 });
 export type ButtonConfigDto = z.infer<typeof buttonConfigSchema>;
 
 export const userRoleConfigSchema = z.object({
     enabled: withMeta(z.boolean().optional().default(true), {
-        label: "Enabled",
-        description: "Whether this role can access the custom export feature."
+        label: "เปิดใช้งาน",
+        description: "กำหนดว่าบทบาทนี้สามารถเข้าถึงฟีเจอร์ส่งออกแบบกำหนดเองได้หรือไม่"
     }),
     hidden: withMeta(z.boolean().optional().default(false), {
-        label: "Hidden",
-        description: "Whether the custom export entry point is hidden from this role."
+        label: "ซ่อน",
+        description: "กำหนดว่าจะซ่อนจุดเข้าถึงฟีเจอร์ส่งออกแบบกำหนดเองจากบทบาทนี้หรือไม่"
     }),
     buttonList: withMeta(z.array(buttonConfigSchema).optional().default([]), {
-        label: "Buttons",
-        description: "List of export buttons shown to this role, each with its own enabled/default-checked state."
+        label: "รายการปุ่ม",
+        description: "รายการปุ่มส่งออกที่แสดงให้บทบาทนี้เห็น พร้อมสถานะเปิดใช้งาน/เลือกไว้ล่วงหน้าของแต่ละปุ่ม"
     })
 });
 export type UserRoleConfigDto = z.infer<typeof userRoleConfigSchema>;
@@ -69,73 +69,73 @@ const exportCustomSchema = withMeta(
     z
         .object({
             enabled: withMeta(z.boolean().optional().default(false), {
-                label: "Enabled",
-                description: "Master switch for the custom export feature."
+                label: "เปิดใช้งาน",
+                description: "สวิตช์หลักสำหรับฟีเจอร์ส่งออกแบบกำหนดเอง"
             }),
             processOnlyDischarged: withMeta(z.boolean().optional().default(false), {
-                label: "Process Only Discharged",
-                description: "When enabled, custom export only processes encounters that have already been discharged."
+                label: "ประมวลผลเฉพาะเคสที่จำหน่ายแล้ว",
+                description: "เมื่อเปิดใช้งาน การส่งออกแบบกำหนดเองจะประมวลผลเฉพาะเคสที่จำหน่ายแล้วเท่านั้น"
             }),
             customPathURL: withMeta(z.string().optional().default(""), {
-                label: "Custom Export URL",
-                description: "Destination URL that the custom export payload is sent to."
+                label: "URL ส่งออกแบบกำหนดเอง",
+                description: "URL ปลายทางที่ข้อมูลส่งออกแบบกำหนดเองจะถูกส่งไป"
             }),
             dischargeValueMode: withMeta(z.enum(["text", "code"]).optional().default("text"), {
-                label: "Discharge Value Mode",
+                label: "รูปแบบค่าการจำหน่าย",
                 description:
-                    'Format used for dischargeType/dischargeStatus values in the custom export payload: "text" sends the name from the discharge code master, "code" sends the raw source-system code.',
+                    'รูปแบบที่ใช้สำหรับค่า dischargeType/dischargeStatus ในข้อมูลส่งออกแบบกำหนดเอง: "text" ส่งชื่อจากชุดรหัสการจำหน่าย ส่วน "code" ส่งรหัสดิบจากระบบต้นทาง',
                 control: "select"
             }),
             mergeDiagnosisIcd: withMeta(z.boolean().optional().default(false), {
-                label: "Merge Coder ICD",
+                label: "รวม ICD ของผู้ให้รหัส",
                 description:
-                    "Merge coder ICD fields (coderIcd/coderType/coderCategory/coderExtension) into diagnosis/procedure entries in the custom export payload."
+                    "รวมฟิลด์ ICD ของผู้ให้รหัส (coderIcd/coderType/coderCategory/coderExtension) เข้ากับรายการวินิจฉัย/หัตถการในข้อมูลส่งออกแบบกำหนดเอง"
             }),
             defaultExportOnSave: withMeta(z.boolean().optional().default(false), {
-                label: "Default Export On Save",
-                description: 'Default checked state of the "Export after saving" checkbox in the summary modal.'
+                label: "ส่งออกเมื่อบันทึกโดยค่าเริ่มต้น",
+                description: 'สถานะติ๊กเริ่มต้นของช่องเลือก "ส่งออกหลังจากบันทึก" ในหน้าต่างสรุปจำหน่าย'
             }),
             closeWindowAfterExport: withMeta(z.boolean().optional().default(false), {
-                label: "Close Window After Export",
+                label: "ปิดหน้าต่างหลังส่งออก",
                 description:
-                    "Automatically close the browser window after a successful export. Browsers only allow this for windows the script opened itself, or windows whose history length is still 1."
+                    "ปิดหน้าต่างเบราว์เซอร์อัตโนมัติหลังส่งออกสำเร็จ โดยเบราว์เซอร์จะอนุญาตให้ปิดเฉพาะหน้าต่างที่สคริปต์เปิดขึ้นเองเท่านั้น หรือหน้าต่างที่มีประวัติการเข้าชมความยาวเท่ากับ 1"
             }),
             closeWindowDelayMs: withMeta(z.number().optional().default(1200), {
-                label: "Close Window Delay (ms)",
-                description: "Delay, in milliseconds, before closing the window after export, so the user can see the success toast first."
+                label: "ระยะเวลาหน่วงก่อนปิดหน้าต่าง (มิลลิวินาที)",
+                description: "ระยะเวลาหน่วงเป็นมิลลิวินาทีก่อนปิดหน้าต่างหลังส่งออก เพื่อให้ผู้ใช้เห็นข้อความแจ้งเตือนความสำเร็จก่อน"
             }),
             attendingDoctor: withMeta(userRoleConfigSchema.optional().default({ hidden: false, enabled: true, buttonList: DOCTOR_DEFAULT_BUTTONS }), {
-                label: "Attending Doctor",
-                description: "Custom export access and button configuration for the attending doctor role."
+                label: "แพทย์เจ้าของไข้",
+                description: "สิทธิการเข้าถึงและการตั้งค่าปุ่มส่งออกแบบกำหนดเองสำหรับบทบาทแพทย์เจ้าของไข้"
             }),
             auditorNonDoctorStaff: withMeta(
                 userRoleConfigSchema.optional().default({ hidden: false, enabled: true, buttonList: NON_DOCTOR_DEFAULT_BUTTONS }),
                 {
-                    label: "Auditor (Non-Doctor Staff)",
-                    description: "Custom export access and button configuration for non-doctor auditor staff."
+                    label: "ผู้ตรวจสอบ (เจ้าหน้าที่ที่ไม่ใช่แพทย์)",
+                    description: "สิทธิการเข้าถึงและการตั้งค่าปุ่มส่งออกแบบกำหนดเองสำหรับเจ้าหน้าที่ผู้ตรวจสอบที่ไม่ใช่แพทย์"
                 }
             ),
             auditorDoctor: withMeta(userRoleConfigSchema.optional().default({ hidden: false, enabled: true, buttonList: DOCTOR_DEFAULT_BUTTONS }), {
-                label: "Auditor (Doctor)",
-                description: "Custom export access and button configuration for doctor auditors."
+                label: "ผู้ตรวจสอบ (แพทย์)",
+                description: "สิทธิการเข้าถึงและการตั้งค่าปุ่มส่งออกแบบกำหนดเองสำหรับแพทย์ผู้ตรวจสอบ"
             }),
             auditorDoctorAndAttending: withMeta(
                 userRoleConfigSchema.optional().default({ hidden: false, enabled: true, buttonList: DOCTOR_DEFAULT_BUTTONS }),
                 {
-                    label: "Auditor + Attending Doctor",
-                    description: "Custom export access and button configuration for users who are both auditor and attending doctor."
+                    label: "ผู้ตรวจสอบ + แพทย์เจ้าของไข้",
+                    description: "สิทธิการเข้าถึงและการตั้งค่าปุ่มส่งออกแบบกำหนดเองสำหรับผู้ใช้ที่เป็นทั้งผู้ตรวจสอบและแพทย์เจ้าของไข้"
                 }
             ),
             coder: withMeta(userRoleConfigSchema.optional().default({ hidden: false, enabled: true, buttonList: CODER_DEFAULT_BUTTONS }), {
-                label: "Coder",
-                description: "Custom export access and button configuration for the medical coder role."
+                label: "ผู้ให้รหัส",
+                description: "สิทธิการเข้าถึงและการตั้งค่าปุ่มส่งออกแบบกำหนดเองสำหรับบทบาทผู้ให้รหัสโรค"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Custom Export Settings",
-        description: "Configuration for the per-role custom export feature, including destination URL and payload options."
+        label: "การตั้งค่าส่งออกแบบกำหนดเอง",
+        description: "การตั้งค่าสำหรับฟีเจอร์ส่งออกแบบกำหนดเองตามบทบาท รวมถึง URL ปลายทางและตัวเลือกข้อมูลที่ส่งออก"
     }
 );
 
@@ -145,19 +145,19 @@ const batchLimitSchema = withMeta(
     z
         .object({
             enabled: withMeta(z.boolean().optional().default(true), {
-                label: "Enabled",
-                description: "Whether a limit is enforced on the number of records in a single batch import."
+                label: "เปิดใช้งาน",
+                description: "กำหนดว่าจะบังคับใช้ขีดจำกัดจำนวนรายการในการนำเข้าแบบกลุ่มแต่ละครั้งหรือไม่"
             }),
             limit: withMeta(z.number().optional().default(0), {
-                label: "Limit",
-                description: "Maximum number of records allowed in a single batch import."
+                label: "จำนวนจำกัด",
+                description: "จำนวนรายการสูงสุดที่อนุญาตในการนำเข้าแบบกลุ่มแต่ละครั้ง"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Batch Limit",
-        description: "Limit applied to the size of a single batch import."
+        label: "ขีดจำกัดการนำเข้าแบบกลุ่ม",
+        description: "ขีดจำกัดที่ใช้กับขนาดของการนำเข้าแบบกลุ่มแต่ละครั้ง"
     }
 );
 
@@ -165,24 +165,24 @@ const batchImportSchema = withMeta(
     z
         .object({
             enabled: withMeta(z.boolean().optional().default(false), {
-                label: "Enabled",
-                description: "Master switch for the batch import feature."
+                label: "เปิดใช้งาน",
+                description: "สวิตช์หลักสำหรับฟีเจอร์นำเข้าแบบกลุ่ม"
             }),
             limit: batchLimitSchema,
             allowOnlyDischarge: withMeta(z.boolean().optional().default(true), {
-                label: "Allow Only Discharged",
-                description: "When enabled, batch import only accepts encounters that are already discharged."
+                label: "อนุญาตเฉพาะเคสที่จำหน่ายแล้ว",
+                description: "เมื่อเปิดใช้งาน การนำเข้าแบบกลุ่มจะรับเฉพาะเคสที่จำหน่ายแล้วเท่านั้น"
             }),
             allowOnlyUndischarged: withMeta(z.boolean().optional().default(false), {
-                label: "Allow Only Undischarged",
-                description: "When enabled, batch import only accepts encounters that are not yet discharged."
+                label: "อนุญาตเฉพาะเคสที่ยังไม่จำหน่าย",
+                description: "เมื่อเปิดใช้งาน การนำเข้าแบบกลุ่มจะรับเฉพาะเคสที่ยังไม่จำหน่ายเท่านั้น"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Batch Import Settings",
-        description: "Configuration for the batch import feature."
+        label: "การตั้งค่านำเข้าแบบกลุ่ม",
+        description: "การตั้งค่าสำหรับฟีเจอร์นำเข้าแบบกลุ่ม"
     }
 );
 
@@ -192,35 +192,35 @@ const isHiddenSchema = withMeta(
     z
         .object({
             autoCorrectButton: withMeta(z.boolean().optional().default(false), {
-                label: "Auto-Correct Button",
-                description: "Hide the auto-correct button in the UI."
+                label: "ปุ่มแก้ไขอัตโนมัติ",
+                description: "ซ่อนปุ่มแก้ไขอัตโนมัติในหน้าจอ"
             }),
             criteriaSuggestionIcon: withMeta(z.boolean().optional().default(false), {
-                label: "Criteria Suggestion Icon",
-                description: "Hide the criteria suggestion icon in the UI."
+                label: "ไอคอนคำแนะนำเกณฑ์",
+                description: "ซ่อนไอคอนคำแนะนำเกณฑ์ในหน้าจอ"
             }),
             auditorSuggestionTab: withMeta(z.boolean().optional().default(false), {
-                label: "Auditor Suggestion Tab",
-                description: "Hide the auditor suggestion tab in the utility box."
+                label: "แท็บคำแนะนำผู้ตรวจสอบ",
+                description: "ซ่อนแท็บคำแนะนำผู้ตรวจสอบในกล่องเครื่องมือ"
             }),
             inpatientCaseSelection: withMeta(z.boolean().optional().default(false), {
-                label: "Inpatient Case Selection",
-                description: "Hide the inpatient case selection page/entry point."
+                label: "การเลือกเคสผู้ป่วยใน",
+                description: "ซ่อนหน้า/จุดเข้าถึงการเลือกเคสผู้ป่วยใน"
             }),
             investigationReportTab: withMeta(z.boolean().optional().default(false), {
-                label: "Investigation Report Tab",
-                description: "Hide the investigation report tab in the utility box."
+                label: "แท็บรายงานการตรวจ",
+                description: "ซ่อนแท็บรายงานการตรวจในกล่องเครื่องมือ"
             }),
             excelUploadUserTab: withMeta(z.boolean().optional().default(false), {
-                label: "Excel Upload User Tab",
-                description: "Hide the Excel user-upload tab in settings."
+                label: "แท็บอัปโหลด Excel ผู้ใช้",
+                description: "ซ่อนแท็บอัปโหลดผู้ใช้ด้วย Excel ในหน้าตั้งค่า"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Hidden UI Elements",
-        description: "Toggles that hide specific UI elements and entry points across the app."
+        label: "องค์ประกอบ UI ที่ซ่อน",
+        description: "สวิตช์สำหรับซ่อนองค์ประกอบ UI และจุดเข้าถึงเฉพาะในแอปพลิเคชัน"
     }
 );
 
@@ -228,57 +228,57 @@ const isHiddenSchema = withMeta(
 
 const reasonListItemSchema = z.object({
     label: withMeta(z.string().optional().default(""), {
-        label: "Label",
-        description: "Display text for this reason, shown in the reason dropdown (e.g. discharge/cancel reasons)."
+        label: "ป้ายกำกับ",
+        description: "ข้อความที่แสดงสำหรับเหตุผลนี้ ซึ่งจะแสดงในดรอปดาวน์เหตุผล (เช่น เหตุผลการจำหน่าย/ยกเลิก)"
     }),
     value: withMeta(z.string().optional().default(""), {
-        label: "Value",
-        description: "Underlying value stored when this reason is selected."
+        label: "ค่า",
+        description: "ค่าที่ถูกบันทึกเมื่อเลือกเหตุผลนี้"
     }),
     data: withMeta(z.string().optional().default(""), {
-        label: "Data",
-        description: "Additional free-form data associated with this reason."
+        label: "ข้อมูล",
+        description: "ข้อมูลเพิ่มเติมแบบอิสระที่เชื่อมโยงกับเหตุผลนี้"
     })
 });
 
 const dsListColumnConfigSchema = z.object({
     field: withMeta(z.string().optional().default(""), {
-        label: "Field",
-        description: 'Column field name, e.g. "name", "age", "ward".'
+        label: "ฟิลด์",
+        description: 'ชื่อฟิลด์ของคอลัมน์ เช่น "name", "age", "ward"'
     }),
     visible: withMeta(z.boolean().optional().default(true), {
-        label: "Visible",
-        description: "Whether this column is shown in the discharge-summary list."
+        label: "แสดงผล",
+        description: "กำหนดว่าจะแสดงคอลัมน์นี้ในรายการสรุปจำหน่ายหรือไม่"
     }),
     order: withMeta(z.number().optional().default(0), {
-        label: "Order",
-        description: "Sort order for this column, ascending."
+        label: "ลำดับ",
+        description: "ลำดับการเรียงของคอลัมน์นี้ จากน้อยไปมาก"
     })
 });
 
 const utilityBoxTabConfigSchema = z.object({
     value: withMeta(z.string().optional().default(""), {
-        label: "Tab Value",
-        description: 'Internal value identifying which utility box tab this entry controls, e.g. "auditor_suggestion", "scanDoc".'
+        label: "ค่าแท็บ",
+        description: 'ค่าภายในที่ระบุว่าแท็บใดในกล่องเครื่องมือที่รายการนี้ควบคุม เช่น "auditor_suggestion", "scanDoc"'
     }),
     visible: withMeta(z.boolean().optional().default(true), {
-        label: "Visible",
-        description: "Whether this tab is shown in the utility box."
+        label: "แสดงผล",
+        description: "กำหนดว่าจะแสดงแท็บนี้ในกล่องเครื่องมือหรือไม่"
     }),
     order: withMeta(z.number().optional().default(0), {
-        label: "Order",
-        description: "Sort order for this tab, ascending."
+        label: "ลำดับ",
+        description: "ลำดับการเรียงของแท็บนี้ จากน้อยไปมาก"
     })
 });
 
 const skipListItemSchema = z.object({
     field: withMeta(z.string().optional().default(""), {
-        label: "Field",
-        description: 'Name of the import field this skip-list applies to, e.g. "procedure", "operation".'
+        label: "ฟิลด์",
+        description: 'ชื่อฟิลด์นำเข้าที่รายการคำที่ข้ามนี้มีผลด้วย เช่น "procedure", "operation"'
     }),
     text: withMeta(z.array(z.string()).optional().default([]), {
-        label: "Terms",
-        description: "Terms that are dropped from this field at import time."
+        label: "คำที่กำหนด",
+        description: "คำที่จะถูกตัดออกจากฟิลด์นี้ในขณะนำเข้าข้อมูล"
     })
 });
 
@@ -319,32 +319,32 @@ const HIDDEN_MENU_KEYS = [
 ] as const;
 
 const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
-    dashboard: "Dashboard",
-    "financial-dashboard": "Financial Dashboard",
-    "financial-dashboard/revenue-drg": "Financial Dashboard – Revenue DRG",
-    "financial-dashboard/staff-pending": "Financial Dashboard – Staff Pending",
-    "financial-dashboard/revenue-user": "Financial Dashboard – Revenue User",
-    leaderboard: "Leaderboard",
-    search: "Search",
-    patients: "Patients",
-    encounter: "Encounter",
-    "patient-record": "Patient Record",
-    "inpatient-case-selection": "Inpatient Case Selection",
-    "discharge-summary": "Discharge Summary",
-    "drg-estimator": "DRG Estimator",
-    "reports-and-exports": "Reports & Exports",
+    dashboard: "แดชบอร์ด",
+    "financial-dashboard": "แดชบอร์ดการเงิน",
+    "financial-dashboard/revenue-drg": "แดชบอร์ดการเงิน – รายได้ตาม DRG",
+    "financial-dashboard/staff-pending": "แดชบอร์ดการเงิน – งานค้างของเจ้าหน้าที่",
+    "financial-dashboard/revenue-user": "แดชบอร์ดการเงิน – รายได้ตามผู้ใช้งาน",
+    leaderboard: "ลีดเดอร์บอร์ด",
+    search: "ค้นหา",
+    patients: "ผู้ป่วย",
+    encounter: "การเข้ารับบริการ",
+    "patient-record": "เวชระเบียนผู้ป่วย",
+    "inpatient-case-selection": "การเลือกเคสผู้ป่วยใน",
+    "discharge-summary": "สรุปจำหน่าย",
+    "drg-estimator": "เครื่องมือประเมิน DRG",
+    "reports-and-exports": "รายงานและส่งออกข้อมูล",
     impress: "Impress",
-    "retry-case": "Retry Case",
-    setting: "Setting",
-    "setting/users": "Setting – Users",
-    "setting/roles": "Setting – Roles",
-    "setting/modules": "Setting – Modules",
-    "setting/health-care-coverages": "Setting – Health Care Coverages",
-    "setting/operational": "Setting – Operational",
-    "setting/encounter-status": "Setting – Encounter Status",
-    "setting/kpi-sets": "Setting – KPI Sets",
-    "setting/user-module": "Setting – User Module",
-    "setting/assignee": "Setting – Assignee"
+    "retry-case": "ลองเคสใหม่",
+    setting: "ตั้งค่า",
+    "setting/users": "ตั้งค่า – ผู้ใช้งาน",
+    "setting/roles": "ตั้งค่า – บทบาท",
+    "setting/modules": "ตั้งค่า – โมดูล",
+    "setting/health-care-coverages": "ตั้งค่า – สิทธิการรักษา",
+    "setting/operational": "ตั้งค่า – การดำเนินงาน",
+    "setting/encounter-status": "ตั้งค่า – สถานะการเข้ารับบริการ",
+    "setting/kpi-sets": "ตั้งค่า – ชุด KPI",
+    "setting/user-module": "ตั้งค่า – โมดูลผู้ใช้งาน",
+    "setting/assignee": "ตั้งค่า – ผู้รับมอบหมาย"
 };
 
 // Menu ids hidden by default for a tenant with no explicit hiddenMenus entry, matching the
@@ -373,8 +373,8 @@ const hiddenMenusShape = Object.fromEntries(
 ) as Record<(typeof HIDDEN_MENU_KEYS)[number], z.ZodDefault<z.ZodOptional<z.ZodBoolean>>>;
 
 const hiddenMenusSchema = withMeta(z.object(hiddenMenusShape).optional().default({}), {
-    label: "Hidden Menus",
-    description: "Menus hidden from the sidebar for this tenant. Each selected menu id is hidden; unselected menu ids remain visible.",
+    label: "เมนูที่ซ่อน",
+    description: "เมนูที่ถูกซ่อนจากแถบด้านข้างสำหรับผู้เช่ารายนี้ เมนูที่เลือกจะถูกซ่อน ส่วนเมนูที่ไม่ได้เลือกจะยังแสดงผลตามปกติ",
     control: "multiSelect",
     valueTransform: "recordOfBooleans",
     options: HIDDEN_MENU_KEYS.map((key) => ({ label: HIDDEN_MENU_LABELS[key], value: key }))
@@ -390,9 +390,9 @@ const clinicalSummarySourceEnum = z.enum(["IMPORT", "AI", "USER", "DRAFT"]);
 
 export const appConfigSchema = withMeta(z.object({
     clientUrl: withMeta(z.string().optional().default(""), {
-        label: "Client URL",
+        label: "URL ไคลเอนต์",
         description:
-            'Tenant-specific frontend URL, overriding the CLIENT_URL environment variable when set. Supports the ":subdomain" placeholder, e.g. "https://:subdomain.sati.co.th".'
+            'URL ของหน้าเว็บฝั่งไคลเอนต์เฉพาะผู้เช่ารายนี้ ซึ่งจะแทนที่ตัวแปรสภาพแวดล้อม CLIENT_URL เมื่อมีการกำหนดค่า รองรับตัวแปรแทนที่ ":subdomain" เช่น "https://:subdomain.sati.co.th"'
     }),
 
     exportCustom: exportCustomSchema,
@@ -403,128 +403,128 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enabled: withMeta(z.boolean().optional().default(false), {
-                    label: "Enabled",
-                    description: "Whether failed pre-audit calls are automatically retried."
+                    label: "เปิดใช้งาน",
+                    description: "กำหนดว่าจะลองเรียกพรีออดิตที่ล้มเหลวซ้ำโดยอัตโนมัติหรือไม่"
                 }),
                 rangeHours: withMeta(z.number().optional().default(0), {
-                    label: "Range (Hours)",
-                    description: "How many hours back to look for failed pre-audit calls eligible for retry."
+                    label: "ช่วงเวลาย้อนหลัง (ชั่วโมง)",
+                    description: "จำนวนชั่วโมงย้อนหลังที่จะมองหาการเรียกพรีออดิตที่ล้มเหลวซึ่งสามารถลองใหม่ได้"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Pre-Audit Retry",
-            description: "Settings controlling automatic retry of failed pre-audit calls."
+            label: "การลองพรีออดิตใหม่",
+            description: "การตั้งค่าควบคุมการลองเรียกพรีออดิตที่ล้มเหลวซ้ำโดยอัตโนมัติ"
         }
     ),
 
     preAuditVersion: withMeta(z.enum(["v2", "v3", "v4", "v4.2", "v4.4"]).optional().default("v4.4"), {
-        label: "Pre-Audit Version",
-        description: "Version of the pre-audit engine/API used for this tenant.",
+        label: "เวอร์ชันพรีออดิต",
+        description: "เวอร์ชันของเอนจิน/API พรีออดิตที่ใช้สำหรับผู้เช่ารายนี้",
         control: "select"
     }),
 
     disableValidateProcedure: withMeta(z.boolean().optional().default(false), {
-        label: "Disable Procedure Validation",
-        description: "Skip validation of procedure codes."
+        label: "ปิดการตรวจสอบหัตถการ",
+        description: "ข้ามการตรวจสอบความถูกต้องของรหัสหัตถการ"
     }),
 
     procedure: withMeta(
         z
             .object({
                 displayOnlyICD9AffectDrg: withMeta(z.boolean().optional().default(true), {
-                    label: "Display Only DRG-Affecting ICD-9",
-                    description: "Only display ICD-9 procedure codes that affect the DRG calculation."
+                    label: "แสดงเฉพาะ ICD-9 ที่มีผลต่อ DRG",
+                    description: "แสดงเฉพาะรหัสหัตถการ ICD-9 ที่มีผลต่อการคำนวณ DRG เท่านั้น"
                 }),
                 importUpsertMode: withMeta(z.boolean().optional().default(false), {
-                    label: "Import Upsert Mode",
-                    description: "When importing procedures, upsert existing records instead of always inserting new ones."
+                    label: "โหมด Upsert เมื่อนำเข้า",
+                    description: "เมื่อนำเข้าหัตถการ ให้อัปเดตรายการที่มีอยู่แล้วแทนการเพิ่มรายการใหม่เสมอ"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Procedure Settings",
-            description: "Settings controlling how procedure codes are displayed and imported."
+            label: "การตั้งค่าหัตถการ",
+            description: "การตั้งค่าควบคุมการแสดงผลและการนำเข้ารหัสหัตถการ"
         }
     ),
 
     isHidden: isHiddenSchema,
 
     utilityBoxTabs: withMeta(z.array(utilityBoxTabConfigSchema).optional().default([]), {
-        label: "Utility Box Tabs",
-        description: "Visibility and ordering of tabs shown in the utility box."
+        label: "แท็บกล่องเครื่องมือ",
+        description: "การแสดงผลและลำดับของแท็บที่แสดงในกล่องเครื่องมือ"
     }),
 
     dsListColumns: withMeta(z.array(dsListColumnConfigSchema).optional().default([]), {
-        label: "Discharge Summary List Columns",
-        description: "Visibility and ordering of columns shown in the discharge summary list."
+        label: "คอลัมน์รายการสรุปจำหน่าย",
+        description: "การแสดงผลและลำดับของคอลัมน์ที่แสดงในรายการสรุปจำหน่าย"
     }),
 
     import: withMeta(
         z
             .object({
                 isHandleDoctorOrderSheetProc: withMeta(z.boolean().optional().default(false), {
-                    label: "Handle Doctor Order Sheet Procedures",
-                    description: "Process procedures from the doctor order sheet during import."
+                    label: "จัดการหัตถการจากใบสั่งการแพทย์",
+                    description: "ประมวลผลหัตถการจากใบสั่งการแพทย์ในระหว่างการนำเข้า"
                 }),
                 isOpenOnly: withMeta(z.boolean().optional().default(false), {
-                    label: "Open Encounters Only",
-                    description: "Only import encounters that are currently open."
+                    label: "เฉพาะเคสที่ยังเปิดอยู่",
+                    description: "นำเข้าเฉพาะเคสที่ยังเปิดอยู่ในปัจจุบันเท่านั้น"
                 }),
                 defaultEncounterStatus: withMeta(z.string().optional().default(""), {
-                    label: "Default Encounter Status",
-                    description: "Encounter status assigned by default to newly imported encounters."
+                    label: "สถานะการเข้ารับบริการเริ่มต้น",
+                    description: "สถานะการเข้ารับบริการที่กำหนดให้เคสที่นำเข้าใหม่โดยค่าเริ่มต้น"
                 }),
                 syncDxProcOnly: withMeta(z.boolean().optional().default(false), {
-                    label: "Sync Diagnosis/Procedure Only",
-                    description: "Limit the import sync to diagnosis and procedure data only."
+                    label: "ซิงค์เฉพาะวินิจฉัย/หัตถการ",
+                    description: "จำกัดการซิงค์การนำเข้าให้เฉพาะข้อมูลวินิจฉัยและหัตถการเท่านั้น"
                 }),
                 isAutoAssignDoctor: withMeta(z.boolean().optional().default(false), {
-                    label: "Auto-Assign Doctor",
-                    description: "Automatically assign a doctor to newly imported encounters."
+                    label: "มอบหมายแพทย์อัตโนมัติ",
+                    description: "มอบหมายแพทย์ให้เคสที่นำเข้าใหม่โดยอัตโนมัติ"
                 }),
                 fillBlankProcedureName: withMeta(z.boolean().optional().default(false), {
-                    label: "Fill Blank Procedure Name",
-                    description: "Name procedure/operation rows that arrive with a blank name instead of rejecting the import."
+                    label: "เติมชื่อหัตถการที่ว่างเปล่า",
+                    description: "ตั้งชื่อให้แถวหัตถการ/การผ่าตัดที่นำเข้ามาแบบไม่มีชื่อ แทนการปฏิเสธการนำเข้า"
                 }),
                 autoAssignMode: withMeta(z.enum(["list", "random"]).optional().default("random"), {
-                    label: "Auto-Assign Mode",
+                    label: "โหมดมอบหมายอัตโนมัติ",
                     description:
-                        'How work is distributed in the assignment pool: "list" assigns round-robin in order, "random" assigns randomly (default).',
+                        'วิธีกระจายงานในพูลการมอบหมาย: "list" มอบหมายตามลำดับแบบวนรอบ ส่วน "random" มอบหมายแบบสุ่ม (ค่าเริ่มต้น)',
                     control: "select"
                 }),
                 defaultAssignment: withMeta(
                     z
                         .object({
                             enabled: withMeta(z.boolean().optional().default(false), {
-                                label: "Enabled",
-                                description: "Automatically assign a default role to newly imported encounters."
+                                label: "เปิดใช้งาน",
+                                description: "มอบหมายบทบาทเริ่มต้นให้เคสที่นำเข้าใหม่โดยอัตโนมัติ"
                             }),
                             roleId: withMeta(z.string().optional().default(""), {
-                                label: "Default Role",
-                                description: "Role id assigned by default to newly imported encounters."
+                                label: "บทบาทเริ่มต้น",
+                                description: "รหัสบทบาทที่กำหนดให้เคสที่นำเข้าใหม่โดยค่าเริ่มต้น"
                             })
                         })
                         .nullable()
                         .optional()
                         .default({ enabled: false, roleId: "" }),
                     {
-                        label: "Default Assignment",
-                        description: "Default role assignment applied to newly imported encounters."
+                        label: "การมอบหมายเริ่มต้น",
+                        description: "การมอบหมายบทบาทเริ่มต้นที่ใช้กับเคสที่นำเข้าใหม่"
                     }
                 ),
                 skipList: withMeta(z.array(skipListItemSchema).optional().default([]), {
-                    label: "Skip List",
-                    description: "Terms to drop at import time, grouped by field name (e.g. \"procedure\", \"operation\")."
+                    label: "รายการคำที่ข้าม",
+                    description: 'คำที่จะถูกตัดออกในขณะนำเข้า แยกตามชื่อฟิลด์ (เช่น "procedure", "operation")'
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Import Settings",
-            description: "Configuration for how encounters and related data are imported from the source system."
+            label: "การตั้งค่านำเข้า",
+            description: "การตั้งค่าควบคุมวิธีนำเข้าเคสและข้อมูลที่เกี่ยวข้องจากระบบต้นทาง"
         }
     ),
 
@@ -532,19 +532,19 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 doctorOrderSheetProcExport: withMeta(z.boolean().optional().default(true), {
-                    label: "Export Doctor Order Sheet Procedures",
-                    description: "Include doctor order sheet procedures in exported data."
+                    label: "ส่งออกหัตถการจากใบสั่งการแพทย์",
+                    description: "รวมหัตถการจากใบสั่งการแพทย์ไว้ในข้อมูลที่ส่งออก"
                 }),
                 removeIcdDot: withMeta(z.boolean().optional().default(false), {
-                    label: "Remove ICD Dot",
-                    description: 'Export ICD codes without the dot (e.g. "E35.2" becomes "E352") in exportData and exportCustomPath.'
+                    label: "ตัดจุดออกจากรหัส ICD",
+                    description: 'ส่งออกรหัส ICD โดยไม่มีจุด (เช่น "E35.2" จะกลายเป็น "E352") ใน exportData และ exportCustomPath'
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Export Settings",
-            description: "Configuration for the standard (non-custom) export feature."
+            label: "การตั้งค่าส่งออก",
+            description: "การตั้งค่าสำหรับฟีเจอร์ส่งออกมาตรฐาน (ไม่ใช่แบบกำหนดเอง)"
         }
     ),
 
@@ -552,23 +552,23 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enablePrintForm: withMeta(z.boolean().optional().default(false), {
-                    label: "Enable Print Form",
-                    description: "Enable the print-form feature for this tenant."
+                    label: "เปิดใช้งานแบบฟอร์มพิมพ์",
+                    description: "เปิดใช้งานฟีเจอร์แบบฟอร์มพิมพ์สำหรับผู้เช่ารายนี้"
                 }),
                 printFormURL: withMeta(z.string().optional().default(""), {
-                    label: "Print Form URL",
-                    description: "URL of the print-form service used to render printable forms."
+                    label: "URL แบบฟอร์มพิมพ์",
+                    description: "URL ของบริการแบบฟอร์มพิมพ์ที่ใช้สร้างแบบฟอร์มสำหรับพิมพ์"
                 }),
                 templateName: withMeta(z.string().optional().default(""), {
-                    label: "Template Name",
-                    description: "Name of the print-form template used to render printable forms."
+                    label: "ชื่อเทมเพลต",
+                    description: "ชื่อเทมเพลตแบบฟอร์มพิมพ์ที่ใช้สร้างแบบฟอร์มสำหรับพิมพ์"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Print Form Settings",
-            description: "Configuration for the print-form feature."
+            label: "การตั้งค่าแบบฟอร์มพิมพ์",
+            description: "การตั้งค่าสำหรับฟีเจอร์แบบฟอร์มพิมพ์"
         }
     ),
 
@@ -576,77 +576,77 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enableSyncOnpremData: withMeta(z.boolean().optional().default(false), {
-                    label: "Enable On-Premise Data Sync",
-                    description: "Enable syncing data with the tenant's on-premise system."
+                    label: "เปิดใช้งานการซิงค์ข้อมูล On-Premise",
+                    description: "เปิดใช้งานการซิงค์ข้อมูลกับระบบ On-Premise ของผู้เช่ารายนี้"
                 }),
                 syncOnpremDataURL: withMeta(z.string().optional().default(""), {
-                    label: "On-Premise Sync URL",
-                    description: "URL of the on-premise service used for data sync."
+                    label: "URL ซิงค์ On-Premise",
+                    description: "URL ของบริการ On-Premise ที่ใช้สำหรับซิงค์ข้อมูล"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "On-Premise Data Sync",
-            description: "Configuration for syncing data with the tenant's on-premise system."
+            label: "การซิงค์ข้อมูล On-Premise",
+            description: "การตั้งค่าสำหรับการซิงค์ข้อมูลกับระบบ On-Premise ของผู้เช่ารายนี้"
         }
     ),
 
     auditorTextHandle: withMeta(z.boolean().optional().default(false), {
-        label: "Auditor Text Handle",
-        description: "Enable special text-handling behavior for auditor-entered text."
+        label: "การจัดการข้อความผู้ตรวจสอบ",
+        description: "เปิดใช้งานพฤติกรรมการจัดการข้อความแบบพิเศษสำหรับข้อความที่ผู้ตรวจสอบกรอก"
     }),
 
     isAutoSyncIcd: withMeta(z.boolean().optional().default(false), {
-        label: "Auto-Sync ICD",
-        description: "Automatically sync ICD codes without manual intervention."
+        label: "ซิงค์ ICD อัตโนมัติ",
+        description: "ซิงค์รหัส ICD โดยอัตโนมัติโดยไม่ต้องดำเนินการด้วยตนเอง"
     }),
 
     icdSyncMode: withMeta(z.enum(["diagText", "auditText", "union"]).optional().default("auditText"), {
-        label: "ICD Sync Mode",
-        description: 'Source used when syncing ICD codes: "diagText" uses diagnosis text, "auditText" uses auditor text, "union" uses both.',
+        label: "โหมดซิงค์ ICD",
+        description: 'แหล่งข้อมูลที่ใช้ตอนซิงค์รหัส ICD: "diagText" ใช้ข้อความวินิจฉัย "auditText" ใช้ข้อความของผู้ตรวจสอบ ส่วน "union" ใช้ทั้งสองแหล่ง',
         control: "select"
     }),
 
     isCallPreAuditOneTime: withMeta(z.boolean().optional().default(true), {
-        label: "Call Pre-Audit Once",
-        description: "Call the pre-audit engine only once per encounter instead of on every relevant change."
+        label: "เรียกพรีออดิตเพียงครั้งเดียว",
+        description: "เรียกเอนจินพรีออดิตเพียงครั้งเดียวต่อเคส แทนที่จะเรียกทุกครั้งที่มีการเปลี่ยนแปลงที่เกี่ยวข้อง"
     }),
 
     disableValidatePDX: withMeta(z.boolean().optional().default(false), {
-        label: "Disable PDX Validation",
-        description: "Skip validation of the principal diagnosis (PDX)."
+        label: "ปิดการตรวจสอบ PDX",
+        description: "ข้ามการตรวจสอบความถูกต้องของการวินิจฉัยหลัก (PDX)"
     }),
 
     censorSensitiveInfo: withMeta(z.boolean().optional().default(false), {
-        label: "Censor Sensitive Info",
-        description: "Censor sensitive patient information displayed in the UI."
+        label: "ปิดบังข้อมูลที่ละเอียดอ่อน",
+        description: "ปิดบังข้อมูลผู้ป่วยที่ละเอียดอ่อนซึ่งแสดงอยู่ในหน้าจอ"
     }),
 
     canEditDischargeDate: withMeta(z.boolean().optional().default(false), {
-        label: "Can Edit Discharge Date",
-        description: "Allow users to edit the discharge date after an encounter has been discharged."
+        label: "แก้ไขวันที่จำหน่ายได้",
+        description: "อนุญาตให้ผู้ใช้แก้ไขวันที่จำหน่ายได้หลังจากเคสถูกจำหน่ายแล้ว"
     }),
 
     canEditWeight: withMeta(z.boolean().optional().default(false), {
-        label: "Can Edit Weight",
-        description: "Allow users to edit the patient's recorded weight."
+        label: "แก้ไขน้ำหนักได้",
+        description: "อนุญาตให้ผู้ใช้แก้ไขน้ำหนักที่บันทึกไว้ของผู้ป่วย"
     }),
 
     scanDoc: withMeta(
         z
             .object({
                 strategy: withMeta(z.enum(["S3", "HOS_URL"]).optional().default("S3"), {
-                    label: "Storage Strategy",
-                    description: 'Where scanned documents are stored and served from: "S3" (object storage) or "HOS_URL" (hospital-hosted URL).',
+                    label: "รูปแบบการจัดเก็บ",
+                    description: 'ที่จัดเก็บและให้บริการเอกสารสแกน: "S3" (พื้นที่จัดเก็บแบบออบเจ็กต์) หรือ "HOS_URL" (URL ที่โรงพยาบาลเป็นผู้โฮสต์)',
                     control: "select"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Scanned Document Settings",
-            description: "Configuration for where scanned documents are stored and served from."
+            label: "การตั้งค่าเอกสารสแกน",
+            description: "การตั้งค่าสำหรับตำแหน่งที่จัดเก็บและให้บริการเอกสารสแกน"
         }
     ),
 
@@ -656,80 +656,80 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enabled: withMeta(z.boolean().optional().default(true), {
-                    label: "Enabled",
-                    description: "Show status information (discharge type, encounter status, assignment) on the work list."
+                    label: "เปิดใช้งาน",
+                    description: "แสดงข้อมูลสถานะ (ประเภทการจำหน่าย สถานะการเข้ารับบริการ การมอบหมาย) ในรายการงาน"
                 }),
                 showDischargeType: withMeta(z.boolean().optional().default(true), {
-                    label: "Show Discharge Type",
-                    description: "Show the discharge type badge on the work list."
+                    label: "แสดงประเภทการจำหน่าย",
+                    description: "แสดงป้ายประเภทการจำหน่ายในรายการงาน"
                 }),
                 showEncounterStatus: withMeta(z.boolean().optional().default(true), {
-                    label: "Show Encounter Status",
-                    description: "Show the encounter status badge on the work list."
+                    label: "แสดงสถานะการเข้ารับบริการ",
+                    description: "แสดงป้ายสถานะการเข้ารับบริการในรายการงาน"
                 }),
                 showAssignment: withMeta(z.boolean().optional().default(false), {
-                    label: "Show Assignment",
-                    description: "Show the assignee badge on the work list."
+                    label: "แสดงการมอบหมาย",
+                    description: "แสดงป้ายผู้รับมอบหมายในรายการงาน"
                 }),
                 allowDuplicateAssignees: withMeta(z.boolean().optional().default(false), {
-                    label: "Allow Duplicate Assignees",
-                    description: "Allow the same user to be assigned to more than one role on the same encounter."
+                    label: "อนุญาตผู้รับมอบหมายซ้ำ",
+                    description: "อนุญาตให้ผู้ใช้คนเดียวกันถูกมอบหมายได้มากกว่าหนึ่งบทบาทในเคสเดียวกัน"
                 }),
                 showDefaultDischargeCode: withMeta(z.boolean().optional().default(false), {
-                    label: "Show Default Discharge Codes",
+                    label: "แสดงรหัสการจำหน่ายเริ่มต้น",
                     description:
-                        "When enabled, GET /discharge-code-master merges the standard default codes into the list alongside tenant-specific/auto-discovered rows. When disabled, a tenant with its own rows sees only its own rows."
+                        "เมื่อเปิดใช้งาน GET /discharge-code-master จะรวมรหัสมาตรฐานเริ่มต้นเข้ากับรายการ ควบคู่ไปกับแถวเฉพาะของผู้เช่า/ที่ตรวจพบอัตโนมัติ เมื่อปิดใช้งาน ผู้เช่าที่มีแถวของตนเองจะเห็นเฉพาะแถวของตนเองเท่านั้น"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Status Info",
-            description: "Configuration for the status information badges shown on the work list."
+            label: "ข้อมูลสถานะ",
+            description: "การตั้งค่าสำหรับป้ายข้อมูลสถานะที่แสดงในรายการงาน"
         }
     ),
 
     enablePrintForm: withMeta(z.boolean().optional().default(false), {
-        label: "Enable Print Form",
-        description: "Top-level switch enabling the print-form feature."
+        label: "เปิดใช้งานแบบฟอร์มพิมพ์",
+        description: "สวิตช์ระดับบนสุดสำหรับเปิดใช้งานฟีเจอร์แบบฟอร์มพิมพ์"
     }),
 
     preAuditSuggestion: preAuditSuggestionConfigSchema,
 
     reasonList: withMeta(z.array(reasonListItemSchema).optional().default([]), {
-        label: "Reason List",
-        description: "List of selectable reasons used in reason dropdowns (e.g. discharge/cancel reasons)."
+        label: "รายการเหตุผล",
+        description: "รายการเหตุผลที่เลือกได้ซึ่งใช้ในดรอปดาวน์เหตุผล (เช่น เหตุผลการจำหน่าย/ยกเลิก)"
     }),
 
     autoPractitioner: withMeta(z.boolean().optional().default(false), {
-        label: "Auto Practitioner",
-        description: "Automatically determine the practitioner for an encounter."
+        label: "ผู้ปฏิบัติงานอัตโนมัติ",
+        description: "กำหนดผู้ปฏิบัติงานของเคสโดยอัตโนมัติ"
     }),
 
     disableAutoPractitioner: withMeta(z.boolean().optional().default(false), {
-        label: "Disable Auto Practitioner",
-        description: "Disable automatic practitioner determination."
+        label: "ปิดผู้ปฏิบัติงานอัตโนมัติ",
+        description: "ปิดการกำหนดผู้ปฏิบัติงานโดยอัตโนมัติ"
     }),
 
     skipAuditModeCheck: withMeta(z.boolean().optional().default(false), {
-        label: "Skip Audit Mode Check",
-        description: "Skip the audit-mode check that normally gates certain actions."
+        label: "ข้ามการตรวจสอบโหมดตรวจสอบ",
+        description: "ข้ามการตรวจสอบโหมดตรวจสอบที่ปกติจะควบคุมการดำเนินการบางอย่าง"
     }),
 
     disableValidateClinicalSummary: withMeta(z.boolean().optional().default(true), {
-        label: "Disable Clinical Summary Validation",
-        description: "Skip validation of the clinical summary note."
+        label: "ปิดการตรวจสอบสรุปทางคลินิก",
+        description: "ข้ามการตรวจสอบความถูกต้องของบันทึกสรุปทางคลินิก"
     }),
 
     clinicalSummaryDisplayMode: withMeta(clinicalSummaryDisplayModeEnum.optional().default("priority"), {
-        label: "Clinical Summary Display Mode",
-        description: 'Which clinical summary content is shown by default: "priority" (highest-priority source), "draft", or "all" sources.',
+        label: "โหมดแสดงสรุปทางคลินิก",
+        description: 'เนื้อหาสรุปทางคลินิกที่แสดงโดยค่าเริ่มต้น: "priority" (แหล่งข้อมูลที่มีความสำคัญสูงสุด) "draft" หรือ "all" (ทุกแหล่งข้อมูล)',
         control: "select"
     }),
 
     clinicalSummarySourcePriority: withMeta(z.array(clinicalSummarySourceEnum).optional().default([]), {
-        label: "Clinical Summary Source Priority",
-        description: "Ordered list of clinical summary sources (IMPORT, AI, USER, DRAFT), highest priority first, used to pick which content to show.",
+        label: "ลำดับความสำคัญแหล่งข้อมูลสรุปทางคลินิก",
+        description: "รายการแหล่งข้อมูลสรุปทางคลินิก (IMPORT, AI, USER, DRAFT) เรียงตามลำดับความสำคัญสูงสุดก่อน ใช้เพื่อเลือกเนื้อหาที่จะแสดง",
         control: "multiSelect"
     }),
 
@@ -737,71 +737,71 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enabled: withMeta(z.boolean().optional().default(false), {
-                    label: "Enabled",
-                    description: "Require an encounter to be assigned before certain actions are allowed."
+                    label: "เปิดใช้งาน",
+                    description: "กำหนดให้เคสต้องถูกมอบหมายก่อนจึงจะอนุญาตให้ดำเนินการบางอย่างได้"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Encounter Assignment Check",
-            description: "Settings controlling whether an encounter must be assigned before certain actions are allowed."
+            label: "การตรวจสอบการมอบหมายเคส",
+            description: "การตั้งค่าควบคุมว่าเคสต้องถูกมอบหมายก่อนจึงจะอนุญาตให้ดำเนินการบางอย่างได้หรือไม่"
         }
     ),
 
     disabledDischargeSummary: withMeta(z.boolean().optional().default(false), {
-        label: "Disable Discharge Summary",
-        description: "Disable the discharge summary feature entirely for this tenant."
+        label: "ปิดฟีเจอร์สรุปจำหน่าย",
+        description: "ปิดฟีเจอร์สรุปจำหน่ายทั้งหมดสำหรับผู้เช่ารายนี้"
     }),
 
     icdMappingFlow: withMeta(
         z
             .object({
                 disableHistoryMapping: withMeta(z.boolean().optional().default(false), {
-                    label: "Disable History Mapping",
-                    description: "Disable the history-mapping step in the ICD mapping flow (History Mapping -> Pre-Audit Mapping -> Impress)."
+                    label: "ปิดการแมปประวัติ",
+                    description: "ปิดขั้นตอนการแมปประวัติในกระบวนการแมป ICD (การแมปประวัติ -> การแมปพรีออดิต -> Impress)"
                 }),
                 disableImpress: withMeta(z.boolean().optional().default(false), {
-                    label: "Disable Impress",
-                    description: "Disable the impress step in the ICD mapping flow (History Mapping -> Pre-Audit Mapping -> Impress)."
+                    label: "ปิด Impress",
+                    description: "ปิดขั้นตอน Impress ในกระบวนการแมป ICD (การแมปประวัติ -> การแมปพรีออดิต -> Impress)"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "ICD Mapping Flow",
-            description: "Configuration for the ICD mapping flow: History Mapping -> Pre-Audit Mapping -> Impress."
+            label: "กระบวนการแมป ICD",
+            description: "การตั้งค่าสำหรับกระบวนการแมป ICD: การแมปประวัติ -> การแมปพรีออดิต -> Impress"
         }
     ),
 
     icdO: withMeta(z.boolean().optional().default(false), {
         label: "ICD-O",
-        description: "Enable ICD-O (oncology) coding support."
+        description: "เปิดใช้งานการให้รหัส ICD-O (มะเร็งวิทยา)"
     }),
 
     rewriteOption: withMeta(
         z
             .object({
                 keepOriginalTerm: withMeta(z.boolean().optional().default(false), {
-                    label: "Keep Original Term",
-                    description: "Keep the original diagnosis/procedure term alongside the rewritten/suggested one."
+                    label: "เก็บคำศัพท์ต้นฉบับ",
+                    description: "เก็บคำศัพท์วินิจฉัย/หัตถการต้นฉบับไว้คู่กับคำที่ถูกเขียนใหม่/แนะนำ"
                 }),
                 suggestICD: withMeta(z.boolean().optional().default(true), {
-                    label: "Suggest ICD",
-                    description: "Suggest ICD codes as part of the rewrite flow."
+                    label: "แนะนำ ICD",
+                    description: "แนะนำรหัส ICD เป็นส่วนหนึ่งของกระบวนการเขียนใหม่"
                 }),
                 codeMappingProvider: withMeta(z.enum(["oneshot", "coder-ai"]).optional().default("oneshot"), {
-                    label: "Code Mapping Provider",
+                    label: "ผู้ให้บริการแมปรหัส",
                     description:
-                        'Backend that answers the code-mapping/rewrite call: "oneshot" (default) calls /ipd-oneshot/v2/rewrite, "coder-ai" calls /coder-ai/v1/rewrite.',
+                        'ระบบหลังบ้านที่ตอบคำขอแมปรหัส/เขียนใหม่: "oneshot" (ค่าเริ่มต้น) เรียก /ipd-oneshot/v2/rewrite ส่วน "coder-ai" เรียก /coder-ai/v1/rewrite',
                     control: "select"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Rewrite Options",
-            description: "Configuration for the diagnosis/procedure rewrite and code-suggestion flow."
+            label: "ตัวเลือกการเขียนใหม่",
+            description: "การตั้งค่าสำหรับกระบวนการเขียนใหม่และแนะนำรหัสวินิจฉัย/หัตถการ"
         }
     ),
 
@@ -809,15 +809,15 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 enabled: withMeta(z.boolean().optional().default(false), {
-                    label: "Enabled",
-                    description: "Warn the user about unsaved draft changes before they navigate away."
+                    label: "เปิดใช้งาน",
+                    description: "แจ้งเตือนผู้ใช้เกี่ยวกับการเปลี่ยนแปลงฉบับร่างที่ยังไม่บันทึก ก่อนออกจากหน้า"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Unsaved Draft Guard",
-            description: "Configuration for the unsaved-draft navigation guard."
+            label: "การป้องกันฉบับร่างที่ยังไม่บันทึก",
+            description: "การตั้งค่าสำหรับการแจ้งเตือนป้องกันการออกจากหน้าเมื่อมีฉบับร่างที่ยังไม่บันทึก"
         }
     ),
 
@@ -825,24 +825,24 @@ export const appConfigSchema = withMeta(z.object({
         z
             .object({
                 normalStatusMode: withMeta(z.enum(["interpreter", "import", "hybrid"]).optional().default("interpreter"), {
-                    label: "Normal Status Mode",
+                    label: "โหมดสถานะค่าปกติ",
                     description:
-                        'Source used for a lab item\'s normal status: "interpreter" (default) always uses the lab interpreter, "import" uses the value computed at import time (HIS flag/range) without calling the interpreter, "hybrid" uses the import-time value first and only calls the interpreter for items that still lack a value.',
+                        'แหล่งข้อมูลที่ใช้สำหรับสถานะค่าปกติของรายการแล็บ: "interpreter" (ค่าเริ่มต้น) ใช้ตัวแปลผลแล็บเสมอ "import" ใช้ค่าที่คำนวณไว้ตอนนำเข้า (ค่าธง/ช่วงค่าจาก HIS) โดยไม่เรียกตัวแปลผล ส่วน "hybrid" ใช้ค่าตอนนำเข้าก่อน และจะเรียกตัวแปลผลเฉพาะรายการที่ยังไม่มีค่าเท่านั้น',
                     control: "select"
                 })
             })
             .optional()
             .default({}),
         {
-            label: "Lab Settings",
-            description: "Configuration for how lab item normal-status values are determined."
+            label: "การตั้งค่าแล็บ",
+            description: "การตั้งค่าสำหรับวิธีกำหนดค่าสถานะปกติของรายการแล็บ"
         }
     ),
 
     dischargeSummaryList: dischargeSummaryListConfigSchema
 }), {
-    label: "App Config",
-    description: "All configurable settings for this tenant."
+    label: "การตั้งค่าแอปพลิเคชัน",
+    description: "การตั้งค่าทั้งหมดที่ปรับแต่งได้สำหรับผู้เช่ารายนี้"
 });
 
 export type AppConfigDto = z.infer<typeof appConfigSchema>;

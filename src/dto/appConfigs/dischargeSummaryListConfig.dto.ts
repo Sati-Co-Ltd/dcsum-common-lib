@@ -5,15 +5,15 @@ const assignmentSchema = withMeta(
     z
         .object({
             maskStaff: withMeta(z.boolean().optional().default(false), {
-                label: "Mask Staff Display Names",
-                description: "Mask staff display names (e.g. assignee) shown in the discharge summary list, based on the hospital-staff masking config."
+                label: "ปิดบังชื่อที่แสดงของเจ้าหน้าที่",
+                description: "ปิดบังชื่อที่แสดงของเจ้าหน้าที่ (เช่น ผู้รับมอบหมาย) ในรายการสรุปจำหน่าย ตามการตั้งค่าปิดบังข้อมูลเจ้าหน้าที่โรงพยาบาล"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Assignment",
-        description: "Settings for how assignment info is displayed in the discharge summary list."
+        label: "การมอบหมาย",
+        description: "การตั้งค่าการแสดงข้อมูลการมอบหมายในรายการสรุปจำหน่าย"
     }
 );
 
@@ -21,15 +21,15 @@ const patientSchema = withMeta(
     z
         .object({
             maskPatientName: withMeta(z.boolean().optional().default(false), {
-                label: "Mask Patient Name",
-                description: "Mask patient names shown in the discharge summary list."
+                label: "ปิดบังชื่อผู้ป่วย",
+                description: "ปิดบังชื่อผู้ป่วยที่แสดงในรายการสรุปจำหน่าย"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Patient",
-        description: "Settings for how patient info is displayed in the discharge summary list."
+        label: "ผู้ป่วย",
+        description: "การตั้งค่าการแสดงข้อมูลผู้ป่วยในรายการสรุปจำหน่าย"
     }
 );
 
@@ -42,8 +42,8 @@ export const dischargeSummaryListConfigSchema = withMeta(
         .optional()
         .default({}),
     {
-        label: "Discharge Summary List",
-        description: "Settings controlling the discharge summary list view."
+        label: "รายการสรุปจำหน่าย",
+        description: "การตั้งค่าควบคุมมุมมองรายการสรุปจำหน่าย"
     }
 );
 

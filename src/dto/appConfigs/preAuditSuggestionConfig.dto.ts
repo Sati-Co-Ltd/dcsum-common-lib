@@ -8,20 +8,20 @@ const displayModeSchema = withMeta(
     z
         .object({
             enabled: withMeta(z.boolean().optional().default(false), {
-                label: "Enable Display Mode",
-                description: "Allow switching between brief and detailed pre-audit suggestion displays."
+                label: "เปิดใช้งานโหมดการแสดงผล",
+                description: "อนุญาตให้สลับระหว่างการแสดงคำแนะนำพรีออดิตแบบย่อและแบบละเอียด"
             }),
             defaultMode: withMeta(z.enum(["brief", "detailed"]).optional().default("detailed"), {
-                label: "Default Display Mode",
-                description: "Default level of detail shown for pre-audit suggestions when display mode is enabled.",
+                label: "โหมดการแสดงผลเริ่มต้น",
+                description: "ระดับรายละเอียดเริ่มต้นที่แสดงสำหรับคำแนะนำพรีออดิต เมื่อเปิดใช้งานโหมดการแสดงผล",
                 control: "select"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Display Mode",
-        description: "Settings controlling how pre-audit suggestions are displayed to the user."
+        label: "โหมดการแสดงผล",
+        description: "การตั้งค่าควบคุมวิธีแสดงคำแนะนำพรีออดิตให้ผู้ใช้เห็น"
     }
 );
 
@@ -29,15 +29,15 @@ const similaritySchema = withMeta(
     z
         .object({
             enabled: withMeta(z.boolean().optional().default(false), {
-                label: "Enable Similarity Matching",
-                description: "Enable similarity-based matching when suggesting pre-audit diagnosis/procedure codes."
+                label: "เปิดใช้งานการจับคู่ความคล้ายคลึง",
+                description: "เปิดใช้งานการจับคู่ด้วยความคล้ายคลึงเมื่อแนะนำรหัสวินิจฉัย/หัตถการในพรีออดิต"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Similarity Matching",
-        description: "Settings controlling similarity-based pre-audit suggestion matching."
+        label: "การจับคู่ความคล้ายคลึง",
+        description: "การตั้งค่าควบคุมการจับคู่คำแนะนำพรีออดิตด้วยความคล้ายคลึง"
     }
 );
 
@@ -45,22 +45,22 @@ export const preAuditSuggestionConfigSchema = withMeta(
     z
         .object({
             preAuditMode: withMeta(preAuditModeEnum.optional().default("default"), {
-                label: "Pre-Audit Mode",
-                description: "Controls how strict the pre-audit suggestion engine is when matching diagnoses and procedures.",
+                label: "โหมดพรีออดิต",
+                description: "ควบคุมความเข้มงวดของเอนจินคำแนะนำพรีออดิตเมื่อจับคู่การวินิจฉัยและหัตถการ",
                 control: "select"
             }),
             displayMode: displayModeSchema,
             similarity: similaritySchema,
             isCurrentANOnly: withMeta(z.boolean().optional().default(false), {
-                label: "Current Admission Number Only",
-                description: "Restrict pre-audit suggestions to the current admission number (AN) only."
+                label: "เฉพาะเลขที่รับเข้ารักษาปัจจุบันเท่านั้น",
+                description: "จำกัดคำแนะนำพรีออดิตให้ใช้ได้เฉพาะเลขที่รับเข้ารักษา (AN) ปัจจุบันเท่านั้น"
             })
         })
         .optional()
         .default({}),
     {
-        label: "Pre-Audit Suggestion",
-        description: "Configuration for the pre-audit suggestion engine."
+        label: "คำแนะนำพรีออดิต",
+        description: "การตั้งค่าสำหรับเอนจินคำแนะนำพรีออดิต"
     }
 );
 
