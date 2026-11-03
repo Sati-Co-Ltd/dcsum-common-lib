@@ -84,7 +84,11 @@ const exportCustomSchema = withMeta(
                 label: "รูปแบบค่าการจำหน่าย",
                 description:
                     'รูปแบบที่ใช้สำหรับค่า dischargeType/dischargeStatus ในข้อมูลส่งออกแบบกำหนดเอง: "text" ส่งชื่อจากชุดรหัสการจำหน่าย ส่วน "code" ส่งรหัสดิบจากระบบต้นทาง',
-                control: "select"
+                control: "select",
+                options: [
+                    { label: "ชื่อ (จากชุดรหัสการจำหน่าย)", value: "text" },
+                    { label: "รหัสดิบ (จากระบบต้นทาง)", value: "code" }
+                ]
             }),
             mergeDiagnosisIcd: withMeta(z.boolean().optional().default(false), {
                 label: "รวม ICD ของผู้ให้รหัส",
@@ -493,7 +497,11 @@ export const appConfigSchema = withMeta(z.object({
                     label: "โหมดมอบหมายอัตโนมัติ",
                     description:
                         'วิธีกระจายงานในพูลการมอบหมาย: "list" มอบหมายตามลำดับแบบวนรอบ ส่วน "random" มอบหมายแบบสุ่ม (ค่าเริ่มต้น)',
-                    control: "select"
+                    control: "select",
+                    options: [
+                        { label: "ตามลำดับ (วนรอบ)", value: "list" },
+                        { label: "สุ่ม", value: "random" }
+                    ]
                 }),
                 defaultAssignment: withMeta(
                     z
@@ -605,7 +613,12 @@ export const appConfigSchema = withMeta(z.object({
     icdSyncMode: withMeta(z.enum(["diagText", "auditText", "union"]).optional().default("auditText"), {
         label: "โหมดซิงค์ ICD",
         description: 'แหล่งข้อมูลที่ใช้ตอนซิงค์รหัส ICD: "diagText" ใช้ข้อความวินิจฉัย "auditText" ใช้ข้อความของผู้ตรวจสอบ ส่วน "union" ใช้ทั้งสองแหล่ง',
-        control: "select"
+        control: "select",
+        options: [
+            { label: "ข้อความวินิจฉัย (diagText)", value: "diagText" },
+            { label: "ข้อความผู้ตรวจสอบ (auditText)", value: "auditText" },
+            { label: "ทั้งสองแหล่ง (union)", value: "union" }
+        ]
     }),
 
     isCallPreAuditOneTime: withMeta(z.boolean().optional().default(true), {
@@ -639,7 +652,11 @@ export const appConfigSchema = withMeta(z.object({
                 strategy: withMeta(z.enum(["S3", "HOS_URL"]).optional().default("S3"), {
                     label: "รูปแบบการจัดเก็บ",
                     description: 'ที่จัดเก็บและให้บริการเอกสารสแกน: "S3" (พื้นที่จัดเก็บแบบออบเจ็กต์) หรือ "HOS_URL" (URL ที่โรงพยาบาลเป็นผู้โฮสต์)',
-                    control: "select"
+                    control: "select",
+                    options: [
+                        { label: "พื้นที่จัดเก็บ S3", value: "S3" },
+                        { label: "URL จากโรงพยาบาล (HOSxP)", value: "HOS_URL" }
+                    ]
                 })
             })
             .optional()
@@ -724,13 +741,24 @@ export const appConfigSchema = withMeta(z.object({
     clinicalSummaryDisplayMode: withMeta(clinicalSummaryDisplayModeEnum.optional().default("priority"), {
         label: "โหมดแสดงสรุปทางคลินิก",
         description: 'เนื้อหาสรุปทางคลินิกที่แสดงโดยค่าเริ่มต้น: "priority" (แหล่งข้อมูลที่มีความสำคัญสูงสุด) "draft" หรือ "all" (ทุกแหล่งข้อมูล)',
-        control: "select"
+        control: "select",
+        options: [
+            { label: "แหล่งข้อมูลที่สำคัญที่สุด", value: "priority" },
+            { label: "ฉบับร่าง", value: "draft" },
+            { label: "ทุกแหล่งข้อมูล", value: "all" }
+        ]
     }),
 
     clinicalSummarySourcePriority: withMeta(z.array(clinicalSummarySourceEnum).optional().default([]), {
         label: "ลำดับความสำคัญแหล่งข้อมูลสรุปทางคลินิก",
-        description: "รายการแหล่งข้อมูลสรุปทางคลินิก (IMPORT, AI, USER, DRAFT) เรียงตามลำดับความสำคัญสูงสุดก่อน ใช้เพื่อเลือกเนื้อหาที่จะแสดง",
-        control: "multiSelect"
+        description: "รายการแหล่งข้อมูลสรุปทางคลินิก (นำเข้า, AI, ผู้ใช้, ฉบับร่าง) เรียงตามลำดับความสำคัญสูงสุดก่อน ใช้เพื่อเลือกเนื้อหาที่จะแสดง",
+        control: "multiSelect",
+        options: [
+            { label: "นำเข้าจากระบบต้นทาง (IMPORT)", value: "IMPORT" },
+            { label: "สร้างโดย AI", value: "AI" },
+            { label: "ผู้ใช้กรอกเอง (USER)", value: "USER" },
+            { label: "ฉบับร่าง (DRAFT)", value: "DRAFT" }
+        ]
     }),
 
     encounterAssignmentCheck: withMeta(
@@ -794,7 +822,11 @@ export const appConfigSchema = withMeta(z.object({
                     label: "ผู้ให้บริการแมปรหัส",
                     description:
                         'ระบบหลังบ้านที่ตอบคำขอแมปรหัส/เขียนใหม่: "oneshot" (ค่าเริ่มต้น) เรียก /ipd-oneshot/v2/rewrite ส่วน "coder-ai" เรียก /coder-ai/v1/rewrite',
-                    control: "select"
+                    control: "select",
+                    options: [
+                        { label: "Oneshot (ค่าเริ่มต้น)", value: "oneshot" },
+                        { label: "Coder AI", value: "coder-ai" }
+                    ]
                 })
             })
             .optional()
@@ -828,7 +860,12 @@ export const appConfigSchema = withMeta(z.object({
                     label: "โหมดสถานะค่าปกติ",
                     description:
                         'แหล่งข้อมูลที่ใช้สำหรับสถานะค่าปกติของรายการแล็บ: "interpreter" (ค่าเริ่มต้น) ใช้ตัวแปลผลแล็บเสมอ "import" ใช้ค่าที่คำนวณไว้ตอนนำเข้า (ค่าธง/ช่วงค่าจาก HIS) โดยไม่เรียกตัวแปลผล ส่วน "hybrid" ใช้ค่าตอนนำเข้าก่อน และจะเรียกตัวแปลผลเฉพาะรายการที่ยังไม่มีค่าเท่านั้น',
-                    control: "select"
+                    control: "select",
+                    options: [
+                        { label: "ตัวแปลผลแล็บ (ค่าเริ่มต้น)", value: "interpreter" },
+                        { label: "ค่าจากตอนนำเข้า (HIS)", value: "import" },
+                        { label: "ผสมผสาน (นำเข้าก่อน แล้วจึงแปลผล)", value: "hybrid" }
+                    ]
                 })
             })
             .optional()

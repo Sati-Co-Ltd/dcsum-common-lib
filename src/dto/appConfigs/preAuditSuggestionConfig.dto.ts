@@ -14,7 +14,11 @@ const displayModeSchema = withMeta(
             defaultMode: withMeta(z.enum(["brief", "detailed"]).optional().default("detailed"), {
                 label: "โหมดการแสดงผลเริ่มต้น",
                 description: "ระดับรายละเอียดเริ่มต้นที่แสดงสำหรับคำแนะนำพรีออดิต เมื่อเปิดใช้งานโหมดการแสดงผล",
-                control: "select"
+                control: "select",
+                options: [
+                    { label: "แบบย่อ", value: "brief" },
+                    { label: "แบบละเอียด", value: "detailed" }
+                ]
             })
         })
         .optional()
@@ -47,7 +51,12 @@ export const preAuditSuggestionConfigSchema = withMeta(
             preAuditMode: withMeta(preAuditModeEnum.optional().default("default"), {
                 label: "โหมดพรีออดิต",
                 description: "ควบคุมความเข้มงวดของเอนจินคำแนะนำพรีออดิตเมื่อจับคู่การวินิจฉัยและหัตถการ",
-                control: "select"
+                control: "select",
+                options: [
+                    { label: "ค่าเริ่มต้น", value: "default" },
+                    { label: "เข้มงวด", value: "strict" },
+                    { label: "ผ่อนปรน", value: "relax" }
+                ]
             }),
             displayMode: displayModeSchema,
             similarity: similaritySchema,
