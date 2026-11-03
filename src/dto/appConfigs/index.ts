@@ -314,7 +314,8 @@ const HIDDEN_MENU_KEYS = [
     "setting/operational",
     "setting/encounter-status",
     "setting/kpi-sets",
-    "setting/user-module"
+    "setting/user-module",
+    "setting/assignee"
 ] as const;
 
 const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
@@ -342,7 +343,8 @@ const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
     "setting/operational": "Setting – Operational",
     "setting/encounter-status": "Setting – Encounter Status",
     "setting/kpi-sets": "Setting – KPI Sets",
-    "setting/user-module": "Setting – User Module"
+    "setting/user-module": "Setting – User Module",
+    "setting/assignee": "Setting – Assignee"
 };
 
 // Menu ids hidden by default for a tenant with no explicit hiddenMenus entry, matching the
