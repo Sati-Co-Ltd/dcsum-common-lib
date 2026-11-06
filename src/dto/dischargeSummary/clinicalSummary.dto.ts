@@ -1,4 +1,4 @@
-export type ClinicalSummaryDisplayMode = "priority" | "draft" | "all";
+export type ClinicalSummaryDisplayMode = "priority" | "draft" | "all" | "only";
 
 export type ClinicalSummaryDto = {
     id?: string;
