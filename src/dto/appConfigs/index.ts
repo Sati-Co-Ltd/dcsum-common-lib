@@ -295,6 +295,7 @@ export type PreAuditVersion = "v2" | "v3" | "v4" | "v4.2" | "v4.4";
 // Keep this list in sync with useMenu.tsx if menus are added/removed/renamed.
 const HIDDEN_MENU_KEYS = [
     "dashboard",
+    "executive-dashboard",
     "financial-dashboard",
     "financial-dashboard/revenue-drg",
     "financial-dashboard/staff-pending",
@@ -324,6 +325,7 @@ const HIDDEN_MENU_KEYS = [
 
 const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
     dashboard: "แดชบอร์ด",
+    "executive-dashboard": "แดชบอร์ดผู้บริหาร",
     "financial-dashboard": "แดชบอร์ดการเงิน",
     "financial-dashboard/revenue-drg": "แดชบอร์ดการเงิน – รายได้ตาม DRG",
     "financial-dashboard/staff-pending": "แดชบอร์ดการเงิน – งานค้างของเจ้าหน้าที่",
@@ -357,6 +359,7 @@ const HIDDEN_MENU_LABELS: Record<(typeof HIDDEN_MENU_KEYS)[number], string> = {
 // default. Every other menu id defaults to visible (false).
 const HIDDEN_BY_DEFAULT_MENU_KEYS = new Set<(typeof HIDDEN_MENU_KEYS)[number]>([
     "dashboard",
+    "executive-dashboard",
     "financial-dashboard",
     "leaderboard",
     "search",
