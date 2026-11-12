@@ -847,6 +847,17 @@ export const appConfigSchema = withMeta(z.object({
                         { label: "Oneshot (ค่าเริ่มต้น)", value: "oneshot" },
                         { label: "Coder AI", value: "coder-ai" }
                     ]
+                }),
+                mode: withMeta(z.enum(["auto", "sync", "async"]).optional().default("auto"), {
+                    label: "โหมดการเรียกเขียนใหม่",
+                    description:
+                        'โหมดที่ใช้เรียก rewrite ตอน import (V3): "auto" (ค่าเริ่มต้น) ตามช่องทางที่เรียก (/api/import = sync, /api/import/batch = async), "sync" รอผล rewrite จนเสร็จก่อนบันทึก diagnosis, "async" ไม่รอผล (อาจได้ผลว่าง)',
+                    control: "select",
+                    options: [
+                        { label: "อัตโนมัติ (ค่าเริ่มต้น)", value: "auto" },
+                        { label: "Sync (รอผล)", value: "sync" },
+                        { label: "Async (ไม่รอผล)", value: "async" }
+                    ]
                 })
             })
             .optional()
