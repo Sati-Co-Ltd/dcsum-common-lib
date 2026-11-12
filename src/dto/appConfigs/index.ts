@@ -457,6 +457,23 @@ export const appConfigSchema = withMeta(z.object({
         }
     ),
 
+    adjustRwCompare: withMeta(
+        z
+            .object({
+                enabled: withMeta(z.boolean().optional().default(true), {
+                    label: "เปิดใช้งาน",
+                    description:
+                        "แสดงตารางเทียบ Adjust RW และรหัสระหว่างรอบการลงรหัสในแถบ Adjust RW ของกล่องเครื่องมือ"
+                })
+            })
+            .optional()
+            .default({}),
+        {
+            label: "เปรียบเทียบ Adjust RW ระหว่างรอบ",
+            description: "การตั้งค่าควบคุมตารางเปรียบเทียบ Adjust RW ของแต่ละรอบการลงรหัส"
+        }
+    ),
+
     isHidden: isHiddenSchema,
 
     utilityBoxTabs: withMeta(z.array(utilityBoxTabConfigSchema).optional().default([]), {
